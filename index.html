@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hesap Kimde? — Eğlenceli Parti Oyunları</title>
+<meta name="description" content="Hesabı kim ödeyecek? Arkadaşlarınla tek telefonda oyna, kaybeden öder. Eğlenceli parti oyunları.">
+<meta property="og:title" content="Hesap Kimde?">
+<meta property="og:description" content="Hesabı kim ödeyecek? Kaybeden öder!">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="icon.png">
+<style>
+  :root{
+    --ink:#0b0b16;
+    --ink-2:#13132a;
+    --panel:#171733;
+    --panel-2:#1e1e40;
+    --gold:#FFC93C;
+    --gold-deep:#F0A500;
+    --coral:#FF5D73;
+    --mint:#3DDC97;
+    --violet:#8B6DFF;
+    --cream:#FFF3D6;
+    --text:#EDECFF;
+    --text-dim:#9E9CC8;
+    --line:rgba(255,255,255,.09);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:'Trebuchet MS','Segoe UI',system-ui,sans-serif;
+    overflow-x:hidden;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  /* ambient party glows */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(420px 320px at 12% 8%, rgba(255,93,115,.18), transparent 70%),
+      radial-gradient(460px 360px at 88% 4%, rgba(139,109,255,.20), transparent 70%),
+      radial-gradient(520px 420px at 50% 100%, rgba(61,220,151,.10), transparent 70%);
+  }
+  header,section,footer,.floaty{position:relative;z-index:1}
+
+  /* ---------- top bar ---------- */
+  header{position:sticky;top:0;z-index:60;background:rgba(11,11,22,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:18px;letter-spacing:.2px}
+  .brand img{width:34px;height:34px;border-radius:9px;box-shadow:0 4px 14px rgba(255,201,60,.25)}
+  .lang{display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
+  .lang button{border:none;background:transparent;color:var(--text-dim);font-weight:800;font-size:12px;letter-spacing:.4px;padding:6px 13px;border-radius:999px;cursor:pointer;font-family:inherit;transition:.18s}
+  .lang button.active{background:var(--gold);color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:70px 0 56px;text-align:center}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);background:rgba(255,201,60,.08);border:1px solid rgba(255,201,60,.28);border-radius:999px;padding:7px 15px;margin-bottom:30px}
+  .kicker .pulse{width:7px;height:7px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 0 rgba(255,93,115,.6);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,93,115,.6)}70%{box-shadow:0 0 0 9px rgba(255,93,115,0)}100%{box-shadow:0 0 0 0 rgba(255,93,115,0)}}
+
+  /* flying money signature */
+  .money{position:relative;width:170px;height:120px;margin:0 auto 26px}
+  .money .halo{position:absolute;inset:-30px;border-radius:50%;background:radial-gradient(circle,rgba(255,201,60,.22),transparent 62%);animation:halo 3s ease-in-out infinite}
+  @keyframes halo{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.12);opacity:1}}
+  .money .body{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);animation:bob 3s ease-in-out infinite}
+  .money .note{width:100px;height:64px;border-radius:9px;background:linear-gradient(158deg,#28c66a,#159b4c);border:3px solid #46e585;box-shadow:0 16px 34px rgba(34,197,94,.35);position:relative}
+  .money .note::after{content:"$";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:30px;font-weight:900;text-shadow:0 2px 3px rgba(0,0,0,.35)}
+  .money .band{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:112px;height:17px;background:var(--gold);border-radius:3px}
+  .money .wing{position:absolute;top:50%;width:52px;height:52px}
+  .money .wing.l{left:-30px;transform-origin:right center;animation:flapL 1s ease-in-out infinite}
+  .money .wing.r{right:-30px;transform-origin:left center;animation:flapR 1s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-50%,-62%)}}
+  @keyframes flapL{0%,100%{transform:translateY(-50%) rotate(-14deg) scaleX(1)}50%{transform:translateY(-50%) rotate(10deg) scaleX(.8)}}
+  @keyframes flapR{0%,100%{transform:translateY(-50%) rotate(14deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-10deg) scaleX(.8)}}
+
+  .hero h1{font-size:clamp(38px,7.5vw,74px);font-weight:800;line-height:1.02;letter-spacing:-1.5px;margin-bottom:18px}
+  .hero h1 .hl{color:var(--gold);position:relative;white-space:nowrap}
+  .hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:12px;background:rgba(255,93,115,.35);z-index:-1;border-radius:3px;transform:rotate(-1.2deg)}
+  .hero .sub{font-size:clamp(16px,2.4vw,20px);color:var(--text-dim);max-width:540px;margin:0 auto 34px}
+
+  /* who-pays picker (interactive signature) */
+  .picker{max-width:420px;margin:0 auto 36px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px 20px 22px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+  .picker .q{font-size:13px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+  .picker .avatars{display:flex;justify-content:center;gap:12px;margin-bottom:18px}
+  .picker .av{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;background:var(--panel-2);border:2px solid transparent;transition:.25s;position:relative}
+  .picker .av.chosen{border-color:var(--gold);transform:translateY(-6px) scale(1.08);box-shadow:0 10px 24px rgba(255,201,60,.35)}
+  .picker .av .tag{position:absolute;-top:10px;top:-12px;left:50%;transform:translateX(-50%) scale(0);background:var(--coral);color:#fff;font-size:9px;font-weight:800;letter-spacing:.5px;padding:2px 7px;border-radius:999px;white-space:nowrap;transition:.25s;text-transform:uppercase}
+  .picker .av.chosen .tag{transform:translateX(-50%) scale(1)}
+  .picker button.spin{width:100%;border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:15px;letter-spacing:.5px;color:var(--ink);background:linear-gradient(120deg,var(--gold),var(--gold-deep));padding:13px;border-radius:12px;transition:transform .15s,box-shadow .15s}
+  .picker button.spin:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(255,201,60,.3)}
+  .picker button.spin:active{transform:translateY(0)}
+
+  .dl{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .store{display:flex;align-items:center;gap:11px;text-decoration:none;background:var(--text);color:var(--ink);padding:13px 22px;border-radius:14px;font-weight:800;transition:transform .15s,box-shadow .15s;min-width:196px}
+  .store:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(237,236,255,.16)}
+  .store.soon{background:transparent;color:var(--text-dim);border:1px solid var(--line);cursor:default}
+  .store.soon:hover{transform:none;box-shadow:none}
+  .store svg{width:25px;height:25px;flex-shrink:0}
+  .store .t{display:flex;flex-direction:column;line-height:1.12;text-align:left}
+  .store .t small{font-size:10.5px;font-weight:700;opacity:.72}
+  .store .t span{font-size:15.5px;font-weight:800}
+
+  /* ---------- section base ---------- */
+  section.block{padding:60px 0;border-top:1px solid var(--line)}
+  .shead{text-align:center;margin-bottom:42px}
+  .shead .eb{font-size:12px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);display:block;margin-bottom:12px}
+  .shead h2{font-size:clamp(26px,4.2vw,40px);font-weight:800;letter-spacing:-.6px}
+  .hl7{color:var(--gold);font-size:1.25em;text-shadow:0 0 24px rgba(255,201,60,.45)}
+
+  /* games grid */
+  .games{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:16px}
+  .game{background:linear-gradient(165deg,var(--panel),var(--ink-2));border:1px solid var(--line);border-radius:19px;padding:24px 22px 22px;transition:transform .22s,border-color .22s,box-shadow .22s;cursor:default;overflow:hidden;position:relative}
+  .game::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--gold));opacity:.9}
+  .game::after{content:"";position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,var(--accent,var(--gold)) 0%,transparent 70%);opacity:.10;transition:opacity .22s,transform .22s}
+  .game:hover{transform:translateY(-6px);border-color:var(--accent,rgba(255,201,60,.45));box-shadow:0 18px 40px rgba(0,0,0,.4)}
+  .game:hover::after{opacity:.22;transform:scale(1.3)}
+  .game .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .game .badge{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:31px;background:color-mix(in srgb,var(--accent,var(--gold)) 14%,transparent);border:1px solid color-mix(in srgb,var(--accent,var(--gold)) 32%,transparent);transition:transform .22s}
+  .game:hover .badge{transform:scale(1.12) rotate(-6deg)}
+  .game .no{font-size:12px;font-weight:900;letter-spacing:1px;color:var(--accent,var(--gold));opacity:.55}
+  .game h3{font-size:17.5px;font-weight:800;margin-bottom:6px}
+  .game p{font-size:13.5px;color:var(--text-dim);line-height:1.5}
+
+  /* how it works */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:800px;margin:0 auto}
+  .step{text-align:center;padding:8px}
+  .step .n{width:44px;height:44px;margin:0 auto 14px;border-radius:50%;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:var(--gold)}
+  .step h4{font-size:16px;font-weight:800;margin-bottom:5px}
+  .step p{font-size:13.5px;color:var(--text-dim)}
+
+  /* features inline */
+  .feats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:720px;margin:0 auto}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:10px 17px;font-size:14px;font-weight:700}
+  .chip .i{font-size:17px}
+
+  /* cta */
+  .cta{position:relative;text-align:center;margin:60px auto;max-width:720px;background:linear-gradient(150deg,var(--panel-2),var(--ink-2));border:1px solid var(--line);border-radius:26px;padding:46px 26px;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(300px 200px at 50% 0%,rgba(255,201,60,.14),transparent 70%);pointer-events:none}
+  .cta h2{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-.5px;margin-bottom:12px}
+  .cta p{color:var(--text-dim);margin-bottom:26px;font-size:16px}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:38px 0 44px;text-align:center}
+  footer .fbrand{display:flex;align-items:center;justify-content:center;gap:9px;font-weight:800;margin-bottom:16px}
+  footer .fbrand img{width:26px;height:26px;border-radius:7px}
+  footer .links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a{color:var(--text-dim);text-decoration:none;font-size:14px;font-weight:700;transition:color .15s}
+  footer a:hover{color:var(--gold)}
+  footer .copy{font-size:12.5px;color:var(--text-dim);opacity:.65}
+
+  /* language visibility */
+  html[lang="tr"] [data-en]{display:none !important}
+  html[lang="en"] [data-tr]{display:none !important}
+
+  @media (prefers-reduced-motion:reduce){
+    .money .body,.money .wing.l,.money .wing.r,.money .halo,.kicker .pulse{animation:none}
+  }
+  @media(max-width:640px){
+    .hero{padding:48px 0 38px}
+    .store{min-width:0;flex:1}
+    .steps{grid-template-columns:1fr;gap:22px}
+    section.block{padding:46px 0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand"><img src="icon.png" alt="Hesap Kimde?"><span data-tr>Hesap Kimde?</span><span data-en>Who Pays?</span></div>
+    <div class="lang">
+      <button id="btn-tr" class="active" onclick="setLang('tr')">TR</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker"><span class="pulse"></span><span data-tr>Eğlenceli Parti Oyunları</span><span data-en>Fun Party Games</span></span>
+
+    <div class="money" aria-hidden="true">
+      <div class="halo"></div>
+      <div class="wing l"><svg viewBox="0 0 60 60"><path d="M58 30 Q20 8 4 22 Q24 30 8 40 Q30 36 58 30Z" fill="#EDECFF"/><path d="M50 30 Q28 20 14 26 Q30 30 20 36 Q34 33 50 30Z" fill="#C7C7EA"/></svg></div>
+      <div class="wing r"><svg viewBox="0 0 60 60"><path d="M2 30 Q40 8 56 22 Q36 30 52 40 Q30 36 2 30Z" fill="#EDECFF"/><path d="M10 30 Q32 20 46 26 Q30 30 40 36 Q26 33 10 30Z" fill="#C7C7EA"/></svg></div>
+      <div class="body"><div class="note"></div><div class="band"></div></div>
+    </div>
+
+    <h1>
+      <span data-tr>Hesabı kim <span class="hl">ödeyecek?</span></span>
+      <span data-en>Who's gonna <span class="hl">pay?</span></span>
+    </h1>
+    <p class="sub" data-tr>Kafede, restoranda ya da evde — tek telefonla arkadaşlarınla oyna. Şans, refleks ve biraz kader. Kaybeden öder!</p>
+    <p class="sub" data-en>At a café, a restaurant, or at home — play with friends on one phone. Luck, reflexes, and a bit of fate. The loser pays!</p>
+
+    <!-- interactive signature -->
+    <div class="picker">
+      <div class="q" data-tr>Kim ödeyecek dersin?</div>
+      <div class="q" data-en>Who do you think pays?</div>
+      <div class="avatars" id="avatars">
+        <div class="av">😎<span class="tag" data-tr>öder!</span><span class="tag" data-en>pays!</span></div>
+        <div class="av">🥳<span class="tag" data-tr>öder!</span><span class="tag" data-en>pays!</span></div>
+        <div class="av">😏<span class="tag" data-tr>öder!</span><span class="tag" data-en>pays!</span></div>
+        <div class="av">🤠<span class="tag" data-tr>öder!</span><span class="tag" data-en>pays!</span></div>
+      </div>
+      <button class="spin" onclick="pick()"><span data-tr>Kaderi belirle 🎲</span><span data-en>Decide fate 🎲</span></button>
+    </div>
+
+    <div class="dl">
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.hakozi.hesapkimde" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M3 2.5c-.3.2-.5.6-.5 1.1v16.8c0 .5.2.9.5 1.1l9.3-9.5L3 2.5z" fill="#22c55e"/><path d="M16.5 8.2L4.6 1.5C4.2 1.3 3.8 1.3 3.5 1.5l9.1 9.3 3.9-2.6z" fill="#FFC93C"/><path d="M20.3 10.4l-3.8-2.2-4 4.1 4 4 3.8-2.2c.8-.5.8-1.7 0-2.2v-1.5z" fill="#FF5D73"/><path d="M3.5 22.5c.3.2.7.2 1.1 0l11.9-6.7-3.9-2.6-9.1 9.3z" fill="#8B6DFF"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Get it on</small><span>Google Play</span></span>
+      </a>
+      <a class="store" href="https://apps.apple.com/app/id6781272465" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.3 2.7 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 1.9-1.1 2.6-2.2.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.5z M14.2 5.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Download on the</small><span>App Store</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="block">
+  <div class="wrap">
+    <div class="shead">
+      <span class="eb" data-tr>Nasıl oynanır</span><span class="eb" data-en>How to play</span>
+      <h2 data-tr>Üç adımda karar</h2>
+      <h2 data-en>Settled in three steps</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h4 data-tr>Bir oyun seç</h4><h4 data-en>Pick a game</h4><p data-tr>Yedi mini oyundan birini aç.</p><p data-en>Open one of the mini-games.</p></div>
+      <div class="step"><div class="n">2</div><h4 data-tr>Telefonu masaya koy</h4><h4 data-en>Put it on the table</h4><p data-tr>Herkes aynı telefonda oynar.</p><p data-en>Everyone plays on the same phone.</p></div>
+      <div class="step"><div class="n">3</div><h4 data-tr>Kaybeden öder</h4><h4 data-en>Loser pays</h4><p data-tr>Kader bir kişiyi seçer. Hesap onda!</p><p data-en>Fate picks one. The bill's on them!</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMES -->
+<section class="block" id="games">
+  <div class="wrap">
+    <div class="shead">
+      <span class="eb" data-tr>Oyunlar</span><span class="eb" data-en>Games</span>
+      <h2 data-tr><span class="hl7">7</span> oyun, tek soru: kim öder?</h2>
+      <h2 data-en><span class="hl7">7</span> games, one question: who pays?</h2>
+    </div>
+    <div class="games">
+      <div class="game" style="--accent:#FFC93C"><div class="top"><span class="badge">🎡</span></div><h3 data-tr>Çark</h3><h3 data-en>Wheel</h3><p data-tr>Çarkı çevir, talih kime gülecek gör.</p><p data-en>Spin the wheel, see who fortune favors.</p></div>
+      <div class="game" style="--accent:#FF5D73"><div class="top"><span class="badge">💣</span></div><h3 data-tr>Saatli Bomba</h3><h3 data-en>Time Bomb</h3><p data-tr>Telefonu elden ele geçir; bomba kimde patlarsa o öder!</p><p data-en>Pass it around; whoever holds it when it blows, pays!</p></div>
+      <div class="game" style="--accent:#3DDC97"><div class="top"><span class="badge">🎨</span></div><h3 data-tr>Renkli Çöp</h3><h3 data-en>Colorful Straws</h3><p data-tr>En kısa çöpü çeken kaybeder.</p><p data-en>Pick the shortest straw and lose.</p></div>
+      <div class="game" style="--accent:#8B6DFF"><div class="top"><span class="badge">👆</span></div><h3 data-tr>Parmak Rulet</h3><h3 data-en>Finger Roulette</h3><p data-tr>Herkes parmağını bassın, kader birini seçsin.</p><p data-en>Everyone holds a finger, fate picks one.</p></div>
+      <div class="game" style="--accent:#FFC93C"><div class="top"><span class="badge">🍕</span></div><h3 data-tr>Yanık Pizza</h3><h3 data-en>Burnt Pizza</h3><p data-tr>Yanık dilim kimde kalırsa o öder.</p><p data-en>Whoever gets the burnt slice pays.</p></div>
+      <div class="game" style="--accent:#FF5D73"><div class="top"><span class="badge">🃏</span></div><h3 data-tr>Kart Çek</h3><h3 data-en>Draw a Card</h3><p data-tr>Şanssız kartı çeken ödemeye hazırlansın.</p><p data-en>Draw the unlucky card and get ready to pay.</p></div>
+      <div class="game" style="--accent:#3DDC97"><div class="top"><span class="badge">🎯</span></div><h3 data-tr>Renk Savaşı</h3><h3 data-en>Color Battle</h3><p data-tr>İki kişi yarışsın, hızlı olan kazansın.</p><p data-en>Two players race — the fastest wins.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="block">
+  <div class="wrap">
+    <div class="shead">
+      <span class="eb" data-tr>Neden</span><span class="eb" data-en>Why</span>
+      <h2 data-tr>Buluşmaların vazgeçilmezi</h2>
+      <h2 data-en>A must for every meet-up</h2>
+    </div>
+    <div class="feats">
+      <span class="chip"><span class="i">📱</span><span data-tr>Tek telefon yeter</span><span data-en>One phone is enough</span></span>
+      <span class="chip"><span class="i">✈️</span><span data-tr>İnternet gerekmez</span><span data-en>No internet needed</span></span>
+      <span class="chip"><span class="i">⚡</span><span data-tr>Saniyeler içinde başla</span><span data-en>Start in seconds</span></span>
+      <span class="chip"><span class="i">🌍</span><span data-tr>Türkçe & İngilizce</span><span data-en>Turkish & English</span></span>
+      <span class="chip"><span class="i">🎉</span><span data-tr>Sınırsız eğlence</span><span data-en>Endless fun</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="wrap">
+  <div class="cta">
+    <h2 data-tr>Sıradaki buluşmaya hazır mısın?</h2>
+    <h2 data-en>Ready for your next meet-up?</h2>
+    <p data-tr>İndir, masaya koy — gerisini oyun halleder.</p>
+    <p data-en>Download, put it on the table — the game does the rest.</p>
+    <div class="dl">
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.hakozi.hesapkimde" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M3 2.5c-.3.2-.5.6-.5 1.1v16.8c0 .5.2.9.5 1.1l9.3-9.5L3 2.5z" fill="#22c55e"/><path d="M16.5 8.2L4.6 1.5C4.2 1.3 3.8 1.3 3.5 1.5l9.1 9.3 3.9-2.6z" fill="#FFC93C"/><path d="M20.3 10.4l-3.8-2.2-4 4.1 4 4 3.8-2.2c.8-.5.8-1.7 0-2.2v-1.5z" fill="#FF5D73"/><path d="M3.5 22.5c.3.2.7.2 1.1 0l11.9-6.7-3.9-2.6-9.1 9.3z" fill="#8B6DFF"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Get it on</small><span>Google Play</span></span>
+      </a>
+      <a class="store" href="https://apps.apple.com/app/id6781272465" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.3 2.7 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 1.9-1.1 2.6-2.2.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.5z M14.2 5.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Download on the</small><span>App Store</span></span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fbrand"><img src="icon.png" alt=""><span data-tr>Hesap Kimde?</span><span data-en>Who Pays?</span></div>
+    <div class="links">
+      <a href="#games" data-tr>Oyunlar</a><a href="#games" data-en>Games</a>
+      <a href="privacy.html" data-tr>Gizlilik Politikası</a><a href="privacy.html" data-en>Privacy Policy</a>
+      <a href="contact.html" data-tr>İletişim</a><a href="contact.html" data-en>Contact</a>
+    </div>
+    <div class="copy"><span data-tr>© 2026 Hesap Kimde? · Hakozi</span><span data-en>© 2026 Who Pays? · Hakozi</span></div>
+  </div>
+</footer>
+
+<script>
+  function setLang(l){
+    document.documentElement.lang=l;
+    document.getElementById('btn-tr').classList.toggle('active',l==='tr');
+    document.getElementById('btn-en').classList.toggle('active',l==='en');
+    document.title = l==='en' ? 'Who Pays? — Fun Party Games' : 'Hesap Kimde? — Eğlenceli Parti Oyunları';
+    try{localStorage.setItem('hk-lang',l)}catch(e){}
+  }
+  (function(){
+    var s;try{s=localStorage.getItem('hk-lang')}catch(e){}
+    var n=(navigator.language||'tr').slice(0,2);
+    setLang(s||(n==='en'?'en':'tr'));
+  })();
+
+  // interactive "who pays" picker
+  var spinning=false;
+  function pick(){
+    if(spinning)return;spinning=true;
+    var avs=document.querySelectorAll('#avatars .av');
+    avs.forEach(function(a){a.classList.remove('chosen')});
+    var i=0,ticks=0,total=14+Math.floor(Math.random()*8);
+    var iv=setInterval(function(){
+      avs.forEach(function(a){a.classList.remove('chosen')});
+      avs[i%avs.length].classList.add('chosen');
+      i++;ticks++;
+      if(ticks>=total){
+        clearInterval(iv);
+        avs.forEach(function(a){a.classList.remove('chosen')});
+        var win=Math.floor(Math.random()*avs.length);
+        avs[win].classList.add('chosen');
+        spinning=false;
+      }
+    },90);
+  }
+</script>
+</body>
+</html>
