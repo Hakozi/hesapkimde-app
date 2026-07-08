@@ -152,9 +152,8 @@
   footer .copy{font-size:12.5px;color:var(--text-dim);opacity:.65}
 
   /* language visibility */
-  [data-en]{display:none}
-  html[lang="en"] [data-tr]{display:none}
-  html[lang="en"] [data-en]{display:revert}
+  html[lang="tr"] [data-en]{display:none !important}
+  html[lang="en"] [data-tr]{display:none !important}
 
   @media (prefers-reduced-motion:reduce){
     .money .body,.money .wing.l,.money .wing.r,.money .halo,.kicker .pulse{animation:none}
@@ -171,7 +170,7 @@
 
 <header>
   <div class="wrap nav">
-    <div class="brand"><img src="icon.png" alt="Hesap Kimde?"><span>Hesap Kimde?</span></div>
+    <div class="brand"><img src="icon.png" alt="Hesap Kimde?"><span data-tr>Hesap Kimde?</span><span data-en>Who Pays?</span></div>
     <div class="lang">
       <button id="btn-tr" class="active" onclick="setLang('tr')">TR</button>
       <button id="btn-en" onclick="setLang('en')">EN</button>
@@ -301,13 +300,13 @@
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
-    <div class="fbrand"><img src="icon.png" alt="">Hesap Kimde?</div>
+    <div class="fbrand"><img src="icon.png" alt=""><span data-tr>Hesap Kimde?</span><span data-en>Who Pays?</span></div>
     <div class="links">
       <a href="#games" data-tr>Oyunlar</a><a href="#games" data-en>Games</a>
       <a href="privacy.html" data-tr>Gizlilik Politikası</a><a href="privacy.html" data-en>Privacy Policy</a>
       <a href="mailto:info@hesapkimde.app" data-tr>İletişim</a><a href="mailto:info@hesapkimde.app" data-en>Contact</a>
     </div>
-    <div class="copy">© 2026 Hesap Kimde? · Hakozi</div>
+    <div class="copy"><span data-tr>© 2026 Hesap Kimde? · Hakozi</span><span data-en>© 2026 Who Pays? · Hakozi</span></div>
   </div>
 </footer>
 
