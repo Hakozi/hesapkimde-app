@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hesap Kimde? — İndir / Download</title>
+<link rel="icon" type="image/png" href="icon.png">
+<style>
+  :root{--ink:#0b0b16;--panel:#171733;--panel-2:#1e1e40;--gold:#FFC93C;--gold-deep:#F0A500;--coral:#FF5D73;--violet:#8B6DFF;--mint:#3DDC97;--text:#EDECFF;--text-dim:#9E9CC8;--line:rgba(255,255,255,.09)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--ink);color:var(--text);font-family:'Trebuchet MS','Segoe UI',system-ui,sans-serif;line-height:1.6;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(460px 340px at 15% 10%,rgba(255,93,115,.18),transparent 70%),radial-gradient(480px 360px at 85% 6%,rgba(139,109,255,.20),transparent 70%),radial-gradient(520px 420px at 50% 100%,rgba(61,220,151,.10),transparent 70%)}
+  .card{position:relative;z-index:1;max-width:440px;width:100%}
+  .logo{width:96px;height:96px;border-radius:24px;margin:0 auto 22px;box-shadow:0 14px 40px rgba(255,201,60,.25);display:block}
+  h1{font-size:clamp(28px,7vw,40px);font-weight:800;letter-spacing:-.6px;margin-bottom:10px}
+  h1 .hl{color:var(--gold)}
+  .sub{color:var(--text-dim);font-size:16px;margin-bottom:34px}
+  .stores{display:flex;flex-direction:column;gap:14px;margin-bottom:26px}
+  .store{display:flex;align-items:center;gap:14px;justify-content:center;text-decoration:none;background:var(--text);color:var(--ink);padding:16px 22px;border-radius:16px;font-weight:800;transition:transform .15s,box-shadow .15s}
+  .store:hover,.store:active{transform:translateY(-3px);box-shadow:0 16px 34px rgba(237,236,255,.18)}
+  .store svg{width:30px;height:30px;flex-shrink:0}
+  .store .t{display:flex;flex-direction:column;line-height:1.15;text-align:left}
+  .store .t small{font-size:11px;font-weight:700;opacity:.7}
+  .store .t span{font-size:17px;font-weight:800}
+  .store.highlight{outline:3px solid var(--gold);outline-offset:2px}
+  .hint{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:20px;min-height:18px}
+  .games{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+  .games span{font-size:22px}
+  .foot a{color:var(--text-dim);text-decoration:none;font-size:14px;font-weight:700}
+  .foot a:hover{color:var(--gold)}
+  .lang{position:fixed;top:16px;right:16px;z-index:5;display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
+  .lang button{border:none;background:transparent;color:var(--text-dim);font-weight:800;font-size:12px;padding:6px 12px;border-radius:999px;cursor:pointer;font-family:inherit}
+  .lang button.active{background:var(--gold);color:var(--ink)}
+  html[lang="tr"] [data-en]{display:none !important}
+  html[lang="en"] [data-tr]{display:none !important}
+</style>
+</head>
+<body>
+<div class="lang">
+  <button id="btn-tr" class="active" onclick="setLang('tr')">TR</button>
+  <button id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+
+<div class="card">
+  <img class="logo" src="icon.png" alt="Hesap Kimde?">
+  <h1><span data-tr>Hesabı kim <span class="hl">ödeyecek?</span></span><span data-en>Who's gonna <span class="hl">pay?</span></span></h1>
+  <p class="sub" data-tr>Telefonuna uygun mağazadan indir, eğlence başlasın!</p>
+  <p class="sub" data-en>Grab it from your store and let the fun begin!</p>
+
+  <div class="games"><span>🎡</span><span>💣</span><span>🎨</span><span>👆</span><span>🍕</span><span>🃏</span><span>🎯</span></div>
+
+  <div class="hint" id="hint"></div>
+
+  <div class="stores">
+    <a class="store" id="ios" href="https://apps.apple.com/app/id6781272465" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.3 2.7 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 1.9-1.1 2.6-2.2.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.5z M14.2 5.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>
+      <span class="t"><small data-tr>İndir</small><small data-en>Download on the</small><span>App Store</span></span>
+    </a>
+    <a class="store" id="android" href="https://play.google.com/store/apps/details?id=com.hakozi.hesapkimde" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M3 2.5c-.3.2-.5.6-.5 1.1v16.8c0 .5.2.9.5 1.1l9.3-9.5L3 2.5z" fill="#22c55e"/><path d="M16.5 8.2L4.6 1.5C4.2 1.3 3.8 1.3 3.5 1.5l9.1 9.3 3.9-2.6z" fill="#FFC93C"/><path d="M20.3 10.4l-3.8-2.2-4 4.1 4 4 3.8-2.2c.8-.5.8-1.7 0-2.2v-1.5z" fill="#FF5D73"/><path d="M3.5 22.5c.3.2.7.2 1.1 0l11.9-6.7-3.9-2.6-9.1 9.3z" fill="#8B6DFF"/></svg>
+      <span class="t"><small data-tr>İndir</small><small data-en>Get it on</small><span>Google Play</span></span>
+    </a>
+  </div>
+
+  <div class="foot"><a href="index.html" data-tr>hesapkimde.app</a><a href="index.html" data-en>hesapkimde.app</a></div>
+</div>
+
+<script>
+  function setLang(l){
+    document.documentElement.lang=l;
+    document.getElementById('btn-tr').classList.toggle('active',l==='tr');
+    document.getElementById('btn-en').classList.toggle('active',l==='en');
+    document.title = l==='en' ? 'Who Pays? — Download' : 'Hesap Kimde? — İndir';
+    applyHint(l);
+    try{localStorage.setItem('hk-lang',l)}catch(e){}
+  }
+  var detected=null;
+  (function(){
+    var ua=navigator.userAgent||navigator.vendor||'';
+    if(/android/i.test(ua))detected='android';
+    else if(/iphone|ipad|ipod/i.test(ua)||(/Macintosh/.test(ua)&&'ontouchend'in document))detected='ios';
+    if(detected){document.getElementById(detected).classList.add('highlight');}
+    var s;try{s=localStorage.getItem('hk-lang')}catch(e){}
+    var n=(navigator.language||'tr').slice(0,2);
+    setLang(s||(n==='en'?'en':'tr'));
+  })();
+  function applyHint(l){
+    var h=document.getElementById('hint');
+    if(detected==='ios')h.textContent=l==='en'?'📱 Detected iPhone — App Store below':'📱 iPhone algılandı — App Store aşağıda';
+    else if(detected==='android')h.textContent=l==='en'?'📱 Detected Android — Google Play below':'📱 Android algılandı — Google Play aşağıda';
+    else h.textContent='';
+  }
+</script>
+</body>
+</html>
