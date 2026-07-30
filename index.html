@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hesap Kimde? — Eğlenceli Parti Oyunları</title>
+<meta name="description" content="Hesabı kim ödeyecek? Arkadaşlarınla tek telefonda oyna, kaybeden öder. 7 eğlenceli parti oyunu.">
+<meta property="og:title" content="Hesap Kimde?">
+<meta property="og:description" content="Hesabı kim ödeyecek? Kaybeden öder!">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#08080f; --panel:rgba(255,255,255,.035); --line:rgba(255,255,255,.08);
+    --gold:#FFC93C; --gold-deep:#F0A500; --coral:#FF5D73; --mint:#3DDC97; --violet:#8B6DFF;
+    --text:#EDECFF; --dim:#9E9CC8; --dim-2:#6F6D9C;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--text);font-family:'Outfit',system-ui,sans-serif;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  .mono{font-family:'Space Grotesk',monospace}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(600px 420px at 78% -4%,rgba(139,109,255,.28),transparent 70%),
+               radial-gradient(560px 400px at 6% 6%,rgba(255,93,115,.20),transparent 72%),
+               radial-gradient(700px 500px at 50% 108%,rgba(61,220,151,.10),transparent 70%)}
+  body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
+    background-image:radial-gradient(rgba(255,255,255,.9) 1px,transparent 1px);background-size:4px 4px}
+  header,section,footer,.ticker{position:relative;z-index:1}
+
+  /* nav */
+  header{position:sticky;top:0;z-index:60;background:rgba(8,8,15,.7);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px;letter-spacing:-.2px}
+  .brand img{width:40px;height:40px;border-radius:12px;box-shadow:0 8px 22px rgba(255,201,60,.22)}
+  .navr{display:flex;align-items:center;gap:14px}
+  .navr>a{font-size:14.5px;font-weight:600;color:var(--dim)}
+  .navr>a:hover{color:var(--text)}
+  .lang{display:flex;gap:3px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:999px;padding:4px}
+  .lang button{border:none;background:transparent;color:var(--dim);font-family:inherit;font-weight:800;font-size:12px;letter-spacing:.6px;padding:7px 14px;border-radius:999px;cursor:pointer;transition:.18s}
+  .lang button.active{background:var(--gold);color:var(--ink)}
+
+  /* hero */
+  .hero{display:flex;flex-wrap:wrap;gap:56px;align-items:center;padding:64px 24px 40px;max-width:1180px;margin:0 auto}
+  .hcol{flex:1 1 440px;min-width:300px}
+  .kicker{display:inline-flex;align-items:center;gap:9px;font-family:'Space Grotesk',monospace;font-size:11.5px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold);background:rgba(255,201,60,.08);border:1px solid rgba(255,201,60,.26);border-radius:999px;padding:8px 16px;margin-bottom:26px}
+  .kicker .pulse{width:7px;height:7px;border-radius:50%;background:var(--coral);animation:pulse 1.7s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,93,115,.65)}70%{box-shadow:0 0 0 10px rgba(255,93,115,0)}100%{box-shadow:0 0 0 0 rgba(255,93,115,0)}}
+  h1{font-size:clamp(42px,6.4vw,80px);font-weight:900;line-height:.98;letter-spacing:-2.6px;margin-bottom:20px;text-wrap:balance}
+  h1 .hl{position:relative;display:inline-block;color:var(--gold);white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.1em;height:.16em;background:rgba(255,93,115,.42);border-radius:4px;transform:rotate(-1.4deg);z-index:-1}
+  .sub{font-size:clamp(16px,1.5vw,19.5px);color:var(--dim);max-width:520px;margin-bottom:32px;text-wrap:pretty}
+  .dl{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+  .store{display:flex;align-items:center;gap:12px;background:var(--text);color:var(--ink);padding:14px 24px;border-radius:16px;font-weight:800;min-width:200px;transition:transform .16s,box-shadow .16s}
+  .store:hover{transform:translateY(-3px);box-shadow:0 18px 34px rgba(237,236,255,.18);color:var(--ink)}
+  .store.ghost{background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.14)}
+  .store.ghost:hover{box-shadow:none;border-color:rgba(255,255,255,.32);color:var(--text)}
+  .store svg{width:25px;height:25px;flex-shrink:0}
+  .store .t{display:flex;flex-direction:column;line-height:1.15;text-align:left}
+  .store .t small{font-size:10.5px;font-weight:700;opacity:.7}
+  .store .t span{font-size:16px;font-weight:800}
+  .proof{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:'Space Grotesk',monospace;font-size:12.5px;font-weight:500;letter-spacing:.6px;color:#7B79A8;text-transform:uppercase}
+
+  /* picker */
+  .pwrap{flex:1 1 380px;min-width:300px;position:relative;display:flex;justify-content:center}
+  .pglow{position:absolute;top:-6%;left:-2%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,201,60,.35),transparent 65%);animation:glow 4s ease-in-out infinite;pointer-events:none}
+  @keyframes glow{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.08)}}
+  .fl1,.fl2{position:absolute;filter:drop-shadow(0 10px 18px rgba(0,0,0,.5))}
+  .fl1{top:-18px;right:6%;font-size:34px;animation:float1 4.4s ease-in-out infinite}
+  .fl2{bottom:6%;left:0;font-size:26px;animation:float2 5.2s ease-in-out infinite}
+  @keyframes float1{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-16px) rotate(-4deg)}}
+  @keyframes float2{0%,100%{transform:translateY(0) rotate(12deg)}50%{transform:translateY(-12px) rotate(6deg)}}
+  .picker{position:relative;width:100%;max-width:400px;background:linear-gradient(170deg,rgba(30,30,64,.92),rgba(15,15,32,.94));border:1px solid rgba(255,255,255,.11);border-radius:30px;padding:26px 24px 28px;box-shadow:0 34px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(8px)}
+  .ptop{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;font-family:'Space Grotesk',monospace;font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--dim)}
+  .ptop .live{font-size:10.5px;letter-spacing:1.4px;color:var(--mint)}
+  .avatars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+  .av{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:30px;border-radius:18px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.09);transition:transform .2s,background .2s,border-color .2s,box-shadow .2s}
+  .av.chosen{background:rgba(255,201,60,.16);border-color:var(--gold);transform:translateY(-6px) scale(1.06);box-shadow:0 14px 28px rgba(255,201,60,.3)}
+  .av .tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%) scale(0);background:var(--coral);color:#fff;font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap;transition:transform .22s}
+  .av.done.chosen .tag{transform:translateX(-50%) scale(1)}
+  .result{min-height:44px;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.12);border-radius:14px;padding:10px 14px;margin-bottom:16px;font-size:14.5px;font-weight:700}
+  .spin{width:100%;border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:16px;letter-spacing:.3px;color:var(--ink);background:linear-gradient(120deg,var(--gold),var(--gold-deep));padding:15px;border-radius:16px;transition:transform .15s,box-shadow .15s}
+  .spin:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(255,201,60,.34)}
+  .spin:active{transform:translateY(0)}
+
+  /* ticker */
+  .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.02);padding:16px 0;overflow:hidden}
+  .track{display:flex;width:max-content;animation:marquee 26s linear infinite}
+  .track>div{display:flex;gap:38px;padding-right:38px;font-family:'Space Grotesk',monospace;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim-2);white-space:nowrap}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* sections */
+  section.block{padding:76px 24px 8px;max-width:1180px;margin:0 auto}
+  .shead{text-align:center;margin-bottom:44px}
+  .shead .eb{display:block;font-family:'Space Grotesk',monospace;font-size:11.5px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;margin-bottom:14px}
+  .shead h2{font-size:clamp(28px,3.6vw,44px);font-weight:800;letter-spacing:-1.2px}
+  .big7{color:var(--gold);font-size:1.2em;text-shadow:0 0 30px rgba(255,201,60,.45)}
+
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:940px;margin:0 auto}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:28px 24px}
+  .step .n{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',monospace;font-size:18px;font-weight:700;margin-bottom:16px}
+  .step h4{font-size:18px;font-weight:800;margin-bottom:6px}
+  .step p{font-size:14.5px;color:var(--dim)}
+
+  .games{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:16px}
+  .game{position:relative;overflow:hidden;border-radius:24px;padding:26px 24px;transition:transform .22s,border-color .22s,box-shadow .22s;
+    background:linear-gradient(165deg,color-mix(in srgb,var(--a) 9%,transparent),rgba(20,20,42,.9));
+    border:1px solid color-mix(in srgb,var(--a) 20%,transparent)}
+  .game:hover{transform:translateY(-7px);border-color:color-mix(in srgb,var(--a) 52%,transparent);box-shadow:0 22px 46px rgba(0,0,0,.45)}
+  .game::after{content:"";position:absolute;top:-50px;right:-50px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--a),transparent 70%);opacity:.16;pointer-events:none}
+  .game .badge{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:18px;
+    background:color-mix(in srgb,var(--a) 13%,transparent);border:1px solid color-mix(in srgb,var(--a) 32%,transparent)}
+  .game h3{font-size:19px;font-weight:800;margin-bottom:7px}
+  .game p{font-size:14px;color:var(--dim);line-height:1.5}
+
+  .feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;max-width:1000px;margin:0 auto}
+  .chip{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 20px;font-size:15px;font-weight:700}
+  .chip span.i{font-size:22px}
+
+  .cta{position:relative;overflow:hidden;text-align:center;max-width:860px;margin:0 auto;background:linear-gradient(150deg,rgba(139,109,255,.16),rgba(20,20,42,.94));border:1px solid rgba(255,255,255,.1);border-radius:32px;padding:56px 28px}
+  .cta::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(400px 240px at 50% 0%,rgba(255,201,60,.18),transparent 70%)}
+  .cta h2{position:relative;font-size:clamp(26px,3.4vw,40px);font-weight:900;letter-spacing:-1.2px;margin-bottom:14px}
+  .cta p{position:relative;color:var(--dim);margin:0 auto 30px;font-size:17px;max-width:460px}
+  .cta .dl{position:relative;justify-content:center;margin-bottom:0}
+
+  footer{border-top:1px solid var(--line);margin-top:60px;padding:40px 24px 48px}
+  .fin{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+  .fbrand{display:flex;align-items:center;gap:11px;font-weight:800}
+  .fbrand img{width:30px;height:30px;border-radius:9px}
+  .flinks{display:flex;gap:24px;flex-wrap:wrap}
+  .flinks a{color:var(--dim);font-size:14px;font-weight:700;transition:color .15s}
+  .flinks a:hover{color:var(--gold)}
+  .copy{font-family:'Space Grotesk',monospace;font-size:12.5px;color:var(--dim-2)}
+
+  .rev{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+  .rev.in{opacity:1;transform:none}
+  html[lang="tr"] [data-en]{display:none !important}
+  html[lang="en"] [data-tr]{display:none !important}
+  @media (prefers-reduced-motion:reduce){*{animation:none !important}.rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand"><img src="icon.png" alt="Hesap Kimde?"><span data-tr>Hesap Kimde?</span><span data-en>Who Pays?</span></div>
+    <div class="navr">
+      <a href="#games"><span data-tr>Oyunlar</span><span data-en>Games</span></a>
+      <div class="lang">
+        <button id="btn-tr" class="active" onclick="setLang('tr')">TR</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hcol">
+    <span class="kicker"><span class="pulse"></span><span data-tr>Eğlenceli Parti Oyunları</span><span data-en>Fun Party Games</span></span>
+    <h1><span data-tr>Hesabı kim <span class="hl">ödeyecek?</span></span><span data-en>Who's gonna <span class="hl">pay?</span></span></h1>
+    <p class="sub" data-tr>Kafede, restoranda ya da evde — tek telefonla arkadaşlarınla oyna. Şans, refleks ve biraz kader. Kaybeden öder!</p>
+    <p class="sub" data-en>At a café, a restaurant, or at home — play with friends on one phone. Luck, reflexes, and a bit of fate. The loser pays!</p>
+
+    <div class="dl">
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.hakozi.hesapkimde" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M3 2.5c-.3.2-.5.6-.5 1.1v16.8c0 .5.2.9.5 1.1l9.3-9.5L3 2.5z" fill="#22c55e"/><path d="M16.5 8.2L4.6 1.5C4.2 1.3 3.8 1.3 3.5 1.5l9.1 9.3 3.9-2.6z" fill="#FFC93C"/><path d="M20.3 10.4l-3.8-2.2-4 4.1 4 4 3.8-2.2c.8-.5.8-1.7 0-2.2v-1.5z" fill="#FF5D73"/><path d="M3.5 22.5c.3.2.7.2 1.1 0l11.9-6.7-3.9-2.6-9.1 9.3z" fill="#8B6DFF"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Get it on</small><span>Google Play</span></span>
+      </a>
+      <a class="store ghost" href="https://apps.apple.com/app/id6781272465" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.3 2.7 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 1.9-1.1 2.6-2.2.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.5z M14.2 5.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Download on the</small><span>App Store</span></span>
+      </a>
+    </div>
+
+    <div class="proof">
+      <span data-tr>7 mini oyun</span><span data-en>7 mini-games</span>
+      <span data-tr>İnternet gerekmez</span><span data-en>No internet needed</span>
+      <span data-tr>Türkçe &amp; İngilizce</span><span data-en>Turkish &amp; English</span>
+    </div>
+  </div>
+
+  <div class="pwrap">
+    <div class="pglow"></div>
+    <div class="fl1" aria-hidden="true">💸</div>
+    <div class="fl2" aria-hidden="true">🪙</div>
+    <div class="picker">
+      <div class="ptop">
+        <span><span data-tr>Kim ödeyecek dersin?</span><span data-en>Who do you think pays?</span></span>
+        <span class="live"><span data-tr>Canlı deneme</span><span data-en>Live demo</span></span>
+      </div>
+      <div class="avatars" id="avatars">
+        <div class="av">😎<span class="tag" data-tr>öder!</span><span class="tag" data-en>pays!</span></div>
+        <div class="av">🥳<span class="tag" data-tr>öder!</span><span class="tag" data-en>pays!</span></div>
+        <div class="av">😏<span class="tag" data-tr>öder!</span><span class="tag" data-en>pays!</span></div>
+        <div class="av">🤠<span class="tag" data-tr>öder!</span><span class="tag" data-en>pays!</span></div>
+      </div>
+      <div class="result" id="result"></div>
+      <button class="spin" onclick="pick()"><span data-tr>Kaderi belirle 🎲</span><span data-en>Decide fate 🎲</span></button>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="track">
+    <div>
+      <span>🎡 <span data-tr>Çark</span><span data-en>Wheel</span></span><span style="color:#FFC93C">·</span>
+      <span>💣 <span data-tr>Saatli Bomba</span><span data-en>Time Bomb</span></span><span style="color:#FF5D73">·</span>
+      <span>🎨 <span data-tr>Renkli Çöp</span><span data-en>Colorful Straws</span></span><span style="color:#3DDC97">·</span>
+      <span>👆 <span data-tr>Parmak Rulet</span><span data-en>Finger Roulette</span></span><span style="color:#8B6DFF">·</span>
+      <span>🍕 <span data-tr>Yanık Pizza</span><span data-en>Burnt Pizza</span></span><span style="color:#FFC93C">·</span>
+      <span>🃏 <span data-tr>Kart Çek</span><span data-en>Draw a Card</span></span><span style="color:#FF5D73">·</span>
+      <span>🎯 <span data-tr>Renk Savaşı</span><span data-en>Color Battle</span></span><span style="color:#3DDC97">·</span>
+    </div>
+    <div aria-hidden="true">
+      <span>🎡 <span data-tr>Çark</span><span data-en>Wheel</span></span><span style="color:#FFC93C">·</span>
+      <span>💣 <span data-tr>Saatli Bomba</span><span data-en>Time Bomb</span></span><span style="color:#FF5D73">·</span>
+      <span>🎨 <span data-tr>Renkli Çöp</span><span data-en>Colorful Straws</span></span><span style="color:#3DDC97">·</span>
+      <span>👆 <span data-tr>Parmak Rulet</span><span data-en>Finger Roulette</span></span><span style="color:#8B6DFF">·</span>
+      <span>🍕 <span data-tr>Yanık Pizza</span><span data-en>Burnt Pizza</span></span><span style="color:#FFC93C">·</span>
+      <span>🃏 <span data-tr>Kart Çek</span><span data-en>Draw a Card</span></span><span style="color:#FF5D73">·</span>
+      <span>🎯 <span data-tr>Renk Savaşı</span><span data-en>Color Battle</span></span><span style="color:#3DDC97">·</span>
+    </div>
+  </div>
+</div>
+
+<section class="block rev">
+  <div class="shead">
+    <span class="eb" style="color:#FF5D73"><span data-tr>Nasıl oynanır</span><span data-en>How to play</span></span>
+    <h2><span data-tr>Üç adımda karar</span><span data-en>Settled in three steps</span></h2>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="n" style="background:rgba(255,201,60,.12);border:1px solid rgba(255,201,60,.3);color:#FFC93C">01</div><h4 data-tr>Bir oyun seç</h4><h4 data-en>Pick a game</h4><p data-tr>Yedi mini oyundan birini aç.</p><p data-en>Open one of the mini-games.</p></div>
+    <div class="step"><div class="n" style="background:rgba(255,93,115,.12);border:1px solid rgba(255,93,115,.3);color:#FF5D73">02</div><h4 data-tr>Telefonu masaya koy</h4><h4 data-en>Put it on the table</h4><p data-tr>Herkes aynı telefonda oynar.</p><p data-en>Everyone plays on the same phone.</p></div>
+    <div class="step"><div class="n" style="background:rgba(61,220,151,.12);border:1px solid rgba(61,220,151,.3);color:#3DDC97">03</div><h4 data-tr>Kaybeden öder</h4><h4 data-en>Loser pays</h4><p data-tr>Kader bir kişiyi seçer. Hesap onda!</p><p data-en>Fate picks one. The bill's on them!</p></div>
+  </div>
+</section>
+
+<section class="block rev" id="games">
+  <div class="shead">
+    <span class="eb" style="color:#8B6DFF"><span data-tr>Oyunlar</span><span data-en>Games</span></span>
+    <h2><span class="big7">7</span> <span data-tr>oyun, tek soru: kim öder?</span><span data-en>games, one question: who pays?</span></h2>
+  </div>
+  <div class="games">
+    <div class="game" style="--a:#FFC93C"><div class="badge">🎡</div><h3 data-tr>Çark</h3><h3 data-en>Wheel</h3><p data-tr>Çarkı çevir, talih kime gülecek gör.</p><p data-en>Spin the wheel, see who fortune favors.</p></div>
+    <div class="game" style="--a:#FF5D73"><div class="badge">💣</div><h3 data-tr>Saatli Bomba</h3><h3 data-en>Time Bomb</h3><p data-tr>Telefonu elden ele geçir; bomba kimde patlarsa o öder!</p><p data-en>Pass it around; whoever holds it when it blows, pays!</p></div>
+    <div class="game" style="--a:#3DDC97"><div class="badge">🎨</div><h3 data-tr>Renkli Çöp</h3><h3 data-en>Colorful Straws</h3><p data-tr>En kısa çöpü çeken kaybeder.</p><p data-en>Pick the shortest straw and lose.</p></div>
+    <div class="game" style="--a:#8B6DFF"><div class="badge">👆</div><h3 data-tr>Parmak Rulet</h3><h3 data-en>Finger Roulette</h3><p data-tr>Herkes parmağını bassın, kader birini seçsin.</p><p data-en>Everyone holds a finger, fate picks one.</p></div>
+    <div class="game" style="--a:#FFC93C"><div class="badge">🍕</div><h3 data-tr>Yanık Pizza</h3><h3 data-en>Burnt Pizza</h3><p data-tr>Yanık dilim kimde kalırsa o öder.</p><p data-en>Whoever gets the burnt slice pays.</p></div>
+    <div class="game" style="--a:#FF5D73"><div class="badge">🃏</div><h3 data-tr>Kart Çek</h3><h3 data-en>Draw a Card</h3><p data-tr>Şanssız kartı çeken ödemeye hazırlansın.</p><p data-en>Draw the unlucky card and get ready to pay.</p></div>
+    <div class="game" style="--a:#3DDC97"><div class="badge">🎯</div><h3 data-tr>Renk Savaşı</h3><h3 data-en>Color Battle</h3><p data-tr>İki kişi yarışsın, hızlı olan kazansın.</p><p data-en>Two players race — the fastest wins.</p></div>
+  </div>
+</section>
+
+<section class="block rev">
+  <div class="shead">
+    <span class="eb" style="color:#3DDC97"><span data-tr>Neden</span><span data-en>Why</span></span>
+    <h2><span data-tr>Buluşmaların vazgeçilmezi</span><span data-en>A must for every meet-up</span></h2>
+  </div>
+  <div class="feats">
+    <div class="chip"><span class="i">📱</span><span data-tr>Tek telefon yeter</span><span data-en>One phone is enough</span></div>
+    <div class="chip"><span class="i">✈️</span><span data-tr>İnternet gerekmez</span><span data-en>No internet needed</span></div>
+    <div class="chip"><span class="i">⚡</span><span data-tr>Saniyeler içinde başla</span><span data-en>Start in seconds</span></div>
+    <div class="chip"><span class="i">🌍</span><span data-tr>Türkçe &amp; İngilizce</span><span data-en>Turkish &amp; English</span></div>
+    <div class="chip"><span class="i">🎉</span><span data-tr>Sınırsız eğlence</span><span data-en>Endless fun</span></div>
+  </div>
+</section>
+
+<section class="block rev" style="padding-top:80px">
+  <div class="cta">
+    <h2 data-tr>Sıradaki buluşmaya hazır mısın?</h2>
+    <h2 data-en>Ready for your next meet-up?</h2>
+    <p data-tr>İndir, masaya koy — gerisini oyun halleder.</p>
+    <p data-en>Download, put it on the table — the game does the rest.</p>
+    <div class="dl">
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.hakozi.hesapkimde" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M3 2.5c-.3.2-.5.6-.5 1.1v16.8c0 .5.2.9.5 1.1l9.3-9.5L3 2.5z" fill="#22c55e"/><path d="M16.5 8.2L4.6 1.5C4.2 1.3 3.8 1.3 3.5 1.5l9.1 9.3 3.9-2.6z" fill="#FFC93C"/><path d="M20.3 10.4l-3.8-2.2-4 4.1 4 4 3.8-2.2c.8-.5.8-1.7 0-2.2v-1.5z" fill="#FF5D73"/><path d="M3.5 22.5c.3.2.7.2 1.1 0l11.9-6.7-3.9-2.6-9.1 9.3z" fill="#8B6DFF"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Get it on</small><span>Google Play</span></span>
+      </a>
+      <a class="store ghost" href="https://apps.apple.com/app/id6781272465" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.3 2.7 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 1.9-1.1 2.6-2.2.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.5z M14.2 5.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Download on the</small><span>App Store</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fin">
+    <div class="fbrand"><img src="icon.png" alt=""><span data-tr>Hesap Kimde?</span><span data-en>Who Pays?</span></div>
+    <div class="flinks">
+      <a href="#games" data-tr>Oyunlar</a><a href="#games" data-en>Games</a>
+      <a href="privacy.html" data-tr>Gizlilik</a><a href="privacy.html" data-en>Privacy</a>
+      <a href="contact.html" data-tr>İletişim</a><a href="contact.html" data-en>Contact</a>
+    </div>
+    <div class="copy"><span data-tr>© 2026 Hesap Kimde? · Hakozi</span><span data-en>© 2026 Who Pays? · Hakozi</span></div>
+  </div>
+</footer>
+
+<script>
+  var TXT = {
+    tr:{idle:"Kaderi belirle, hesabı kim ödeyecek gör.",spinning:"Kader karar veriyor…",pre:"Hesap ",post:" numaralı oyuncuda! 🎉"},
+    en:{idle:"Decide fate and see who gets the bill.",spinning:"Fate is deciding…",pre:"The bill is on player ",post:"! 🎉"}
+  };
+  var LANG='tr';
+  function setLang(l){
+    LANG=l;
+    document.documentElement.lang=l;
+    document.getElementById('btn-tr').classList.toggle('active',l==='tr');
+    document.getElementById('btn-en').classList.toggle('active',l==='en');
+    document.title = l==='en' ? 'Who Pays? — Fun Party Games' : 'Hesap Kimde? — Eğlenceli Parti Oyunları';
+    if(!spinning && !lastWin) document.getElementById('result').textContent = TXT[l].idle;
+    if(lastWin) document.getElementById('result').textContent = TXT[l].pre + lastWin + TXT[l].post;
+    try{localStorage.setItem('hk-lang',l)}catch(e){}
+  }
+
+  var spinning=false, lastWin=0;
+  function pick(){
+    if(spinning)return; spinning=true; lastWin=0;
+    var avs=document.querySelectorAll('#avatars .av'), res=document.getElementById('result');
+    res.textContent = TXT[LANG].spinning;
+    avs.forEach(function(a){a.classList.remove('chosen','done')});
+    var i=0,ticks=0,total=14+Math.floor(Math.random()*8);
+    var iv=setInterval(function(){
+      avs.forEach(function(a){a.classList.remove('chosen')});
+      avs[i%avs.length].classList.add('chosen');
+      i++;ticks++;
+      if(ticks>=total){
+        clearInterval(iv);
+        avs.forEach(function(a){a.classList.remove('chosen','done')});
+        var w=Math.floor(Math.random()*avs.length);
+        avs[w].classList.add('chosen','done');
+        lastWin=w+1; spinning=false;
+        res.textContent = TXT[LANG].pre + lastWin + TXT[LANG].post;
+      }
+    },90);
+  }
+
+  (function(){
+    var s;try{s=localStorage.getItem('hk-lang')}catch(e){}
+    var n=(navigator.language||'tr').slice(0,2);
+    setLang(s||(n==='en'?'en':'tr'));
+    if(window.IntersectionObserver){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+      document.querySelectorAll('.rev').forEach(function(el){io.observe(el)});
+    } else {
+      document.querySelectorAll('.rev').forEach(function(el){el.classList.add('in')});
+    }
+  })();
+</script>
+</body>
+</html>
