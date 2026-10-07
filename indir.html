@@ -4,17 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hesap Kimde? — İndir / Download</title>
+<meta name="description" content="Hesap Kimde? — 9 mini oyunla hesabı kim ödeyecek? App Store ve Google Play'den ücretsiz indir.">
 <link rel="icon" type="image/png" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{--ink:#0b0b16;--panel:#171733;--panel-2:#1e1e40;--gold:#FFC93C;--gold-deep:#F0A500;--coral:#FF5D73;--violet:#8B6DFF;--mint:#3DDC97;--text:#EDECFF;--text-dim:#9E9CC8;--line:rgba(255,255,255,.09)}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--ink);color:var(--text);font-family:'Trebuchet MS','Segoe UI',system-ui,sans-serif;line-height:1.6;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px}
+  body{background:var(--ink);color:var(--text);font-family:'Outfit','Segoe UI',system-ui,sans-serif;line-height:1.6;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px}
   body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(460px 340px at 15% 10%,rgba(255,93,115,.18),transparent 70%),radial-gradient(480px 360px at 85% 6%,rgba(139,109,255,.20),transparent 70%),radial-gradient(520px 420px at 50% 100%,rgba(61,220,151,.10),transparent 70%)}
   .card{position:relative;z-index:1;max-width:440px;width:100%}
   .logo{width:96px;height:96px;border-radius:24px;margin:0 auto 22px;box-shadow:0 14px 40px rgba(255,201,60,.25);display:block}
-  h1{font-size:clamp(28px,7vw,40px);font-weight:800;letter-spacing:-.6px;margin-bottom:10px}
+  h1{font-size:clamp(28px,7vw,40px);font-weight:900;letter-spacing:-.6px;line-height:1.15;margin-bottom:10px}
   h1 .hl{color:var(--gold)}
-  .sub{color:var(--text-dim);font-size:16px;margin-bottom:34px}
+  .sub{color:var(--text-dim);font-size:16px;margin-bottom:22px}
+  .games{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+  .games span{font-size:24px}
+  .facts{display:flex;gap:6px 14px;justify-content:center;flex-wrap:wrap;font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:28px}
+  .facts b{color:var(--gold);font-weight:800}
   .stores{display:flex;flex-direction:column;gap:14px;margin-bottom:26px}
   .store{display:flex;align-items:center;gap:14px;justify-content:center;text-decoration:none;background:var(--text);color:var(--ink);padding:16px 22px;border-radius:16px;font-weight:800;transition:transform .15s,box-shadow .15s}
   .store:hover,.store:active{transform:translateY(-3px);box-shadow:0 16px 34px rgba(237,236,255,.18)}
@@ -23,9 +31,7 @@
   .store .t small{font-size:11px;font-weight:700;opacity:.7}
   .store .t span{font-size:17px;font-weight:800}
   .store.highlight{outline:3px solid var(--gold);outline-offset:2px}
-  .hint{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:20px;min-height:18px}
-  .games{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
-  .games span{font-size:22px}
+  .hint{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:14px;min-height:18px}
   .foot a{color:var(--text-dim);text-decoration:none;font-size:14px;font-weight:700}
   .foot a:hover{color:var(--gold)}
   .lang{position:fixed;top:16px;right:16px;z-index:5;display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
@@ -47,11 +53,18 @@
   <p class="sub" data-tr>Telefonuna uygun mağazadan indir, eğlence başlasın!</p>
   <p class="sub" data-en>Grab it from your store and let the fun begin!</p>
 
-  <div class="games"><span>🎡</span><span>💣</span><span>🎨</span><span>👆</span><span>🍕</span><span>🃏</span><span>🎯</span></div>
+  <!-- 9 oyun: Çark, Saatli Bomba, Parmak Rulet, Zar At, Taş Kağıt Makas, Kart Çek, Renk Savaşı, Yanık Pizza, Renkli Çöp -->
+  <div class="games" aria-hidden="true"><span>🎡</span><span>💣</span><span>👆</span><span>🎲</span><span>✊</span><span>🃏</span><span>🎯</span><span>🍕</span><span>🎨</span></div>
+
+  <div class="facts">
+    <span data-tr><b>9</b> mini oyun</span><span data-en><b>9</b> mini games</span>
+    <span data-tr>İnternet gerekmez</span><span data-en>No internet needed</span>
+    <span data-tr>Ücretsiz</span><span data-en>Free</span>
+  </div>
 
   <div class="hint" id="hint"></div>
 
-  <div class="stores">
+  <div class="stores" id="stores">
     <a class="store" id="ios" href="https://apps.apple.com/app/id6781272465" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.3 2.7 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 1.9-1.1 2.6-2.2.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.5z M14.2 5.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>
       <span class="t"><small data-tr>İndir</small><small data-en>Download on the</small><span>App Store</span></span>
@@ -79,7 +92,13 @@
     var ua=navigator.userAgent||navigator.vendor||'';
     if(/android/i.test(ua))detected='android';
     else if(/iphone|ipad|ipod/i.test(ua)||(/Macintosh/.test(ua)&&'ontouchend'in document))detected='ios';
-    if(detected){document.getElementById(detected).classList.add('highlight');}
+    if(detected){
+      var el=document.getElementById(detected);
+      el.classList.add('highlight');
+      // Algılanan mağazayı en üste al
+      var box=document.getElementById('stores');
+      box.insertBefore(el, box.firstChild);
+    }
     var s;try{s=localStorage.getItem('hk-lang')}catch(e){}
     var n=(navigator.language||'tr').slice(0,2);
     setLang(s||(n==='en'?'en':'tr'));
