@@ -1,159 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gizlilik Politikası — Hesap Kimde?</title>
-<link rel="icon" type="image/png" href="icon.png">
+<meta name="description" content="Hesap Kimde? (Who Pays?) gizlilik politikası / privacy policy.">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#0b0b16;--panel:#171733;--gold:#FFC93C;--coral:#FF5D73;--text:#EDECFF;--text-dim:#9E9CC8;--line:rgba(255,255,255,.09)}
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--ink);color:var(--text);font-family:'Trebuchet MS','Segoe UI',system-ui,sans-serif;line-height:1.7}
-  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(420px 320px at 12% 6%,rgba(255,93,115,.14),transparent 70%),radial-gradient(440px 340px at 88% 3%,rgba(139,109,255,.16),transparent 70%)}
-  header,main{position:relative;z-index:1}
-  .wrap{max-width:740px;margin:0 auto;padding:0 22px}
-  header{position:sticky;top:0;z-index:60;background:rgba(11,11,22,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:62px;max-width:740px;margin:0 auto;padding:0 22px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--text);text-decoration:none}
-  .brand img{width:32px;height:32px;border-radius:8px}
-  .lang{display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
-  .lang button{border:none;background:transparent;color:var(--text-dim);font-weight:800;font-size:12px;padding:6px 13px;border-radius:999px;cursor:pointer;font-family:inherit}
-  .lang button.active{background:var(--gold);color:var(--ink)}
-  main{padding:48px 0 80px}
-  h1{font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-.6px;margin-bottom:8px}
-  .updated{color:var(--text-dim);font-size:14px;margin-bottom:38px}
-  h2{font-size:20px;font-weight:800;color:var(--gold);margin:32px 0 12px}
-  p{margin-bottom:14px;color:#DAD9F5}
-  ul{margin:0 0 14px 22px;color:#DAD9F5}
-  li{margin-bottom:8px}
-  a{color:var(--gold)}
-  .back{display:inline-block;margin-top:38px;color:var(--text-dim);text-decoration:none;font-weight:700}
-  .back:hover{color:var(--gold)}
-  html[lang="tr"] [data-en]{display:none !important}
-  html[lang="en"] [data-tr]{display:none !important}
+  :root{
+    --bg:#07071A; --card:#10102B; --line:#22224A;
+    --text:#ECECF7; --muted:#A3A4C2; --accent:#FFC93C;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;line-height:1.65}
+  a{color:var(--accent)}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 64px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-weight:800}
+  .brand img{width:36px;height:36px;border-radius:10px}
+  .lang{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+  .lang button{background:none;border:0;color:var(--muted);font:700 13px 'Outfit',sans-serif;padding:6px 12px;border-radius:999px;cursor:pointer}
+  .lang button.on{background:var(--accent);color:#1a1405}
+  h1{font-size:clamp(28px,6vw,40px);font-weight:900;line-height:1.1;margin:0 0 6px}
+  .date{color:var(--muted);font-size:14px;margin-bottom:28px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-bottom:14px}
+  h2{font-size:18px;font-weight:800;margin:0 0 8px;color:var(--accent)}
+  p,li{color:var(--text);font-size:15.5px}
+  ul{padding-left:20px;margin:6px 0}
+  li{margin:4px 0}
+  .muted{color:var(--muted)}
+  footer{margin-top:28px;color:var(--muted);font-size:14px;text-align:center}
+  [data-en]{display:none}
+  body.en [data-en]{display:block}
+  body.en [data-tr]{display:none}
 </style>
 </head>
 <body>
+<div class="wrap">
+
 <header>
-  <div class="nav">
-    <a class="brand" href="index.html"><img src="icon.png" alt=""><span data-tr>Hesap Kimde?</span><span data-en>Who Pays?</span></a>
-    <div class="lang">
-      <button id="btn-tr" class="active" onclick="setLang('tr')">TR</button>
-      <button id="btn-en" onclick="setLang('en')">EN</button>
-    </div>
+  <a class="brand" href="index.html"><img src="icon.png" alt=""> Hesap Kimde?</a>
+  <div class="lang">
+    <button type="button" id="b-tr" class="on" onclick="setLang('tr')">TR</button>
+    <button type="button" id="b-en" onclick="setLang('en')">EN</button>
   </div>
 </header>
 
-<main class="wrap">
-  <!-- TR -->
-  <div data-tr>
-    <h1>Gizlilik Politikası</h1>
-    <p class="updated">Son güncelleme: 2 Temmuz 2026</p>
-    <p>Bu gizlilik politikası, <strong>Hesap Kimde?</strong> ("Uygulama") mobil uygulamasının kullanıcı verilerini nasıl topladığını, kullandığını ve koruduğunu açıklar. Uygulamayı kullanarak bu politikada açıklanan uygulamaları kabul etmiş olursunuz.</p>
+<!-- ======================= TÜRKÇE ======================= -->
+<div data-tr>
+  <h1>Gizlilik Politikası</h1>
+  <div class="date">Son güncelleme: 7 Ekim 2026</div>
 
-    <h2>Topladığımız Veriler</h2>
-    <p>Uygulama sizden doğrudan kişisel bilgi (ad, e-posta, telefon vb.) <strong>talep etmez</strong> ve hesap oluşturmanızı gerektirmez. Ancak kullandığımız üçüncü taraf hizmetler aşağıdaki verileri otomatik olarak toplayabilir:</p>
+  <section>
+    <h2>Kısaca</h2>
+    <p>Hesap Kimde? hesap veya giriş gerektirmeyen, çevrimdışı oynanan bir parti oyunudur. Bizim sunucumuza hiçbir kişisel bilgi gönderilmez. Uygulama ücretsizdir ve reklamlarla desteklenir; reklamlar ve uygulamanın düzgün çalışması için aşağıda listelenen üçüncü taraf hizmetler bazı cihaz verilerini işler.</p>
+  </section>
+
+  <section>
+    <h2>Oyun içinde girdiğiniz bilgiler</h2>
+    <p>Oyunlarda yazdığınız oyuncu isimleri yalnızca cihazınızda kullanılır, bize veya üçüncü taraflara gönderilmez. Uygulama, kaç oyun oynadığınız gibi küçük ayarları puanlama isteğini doğru zamanda gösterebilmek için yalnızca cihazınızda saklar.</p>
+  </section>
+
+  <section>
+    <h2>Reklamlar (Google AdMob)</h2>
+    <p>Uygulamada Google AdMob üzerinden reklam gösterilir. AdMob; reklam kimliği, cihaz modeli, işletim sistemi sürümü, yaklaşık konum (IP adresinden) ve reklam etkileşimleri gibi verileri işleyebilir.</p>
     <ul>
-      <li><strong>Yaklaşık konum:</strong> Reklamların bölgesel olarak gösterilmesi için.</li>
-      <li><strong>Cihaz ve reklam tanımlayıcıları:</strong> Reklam kimliği ve cihaz bilgileri.</li>
-      <li><strong>Uygulama etkileşimleri:</strong> Hangi özelliklerin kullanıldığına dair anonim kullanım verileri.</li>
-      <li><strong>Çökme ve performans verileri:</strong> Hataları tespit edip düzeltmek için tanılama ve çökme günlükleri.</li>
+      <li><b>iPhone / iPad:</b> Uygulama ilk açılışta Apple'ın "Takip" (App Tracking Transparency) iznini sorar. İzin verirseniz size daha ilgili, kişiselleştirilmiş reklamlar gösterilebilir. İzin vermezseniz reklam kimliğiniz paylaşılmaz ve kişiselleştirilmemiş reklamlar gösterilir.</li>
+      <li><b>Avrupa Ekonomik Alanı, İngiltere ve İsviçre:</b> Google'ın onay penceresi aracılığıyla reklam tercihleriniz ayrıca sorulur.</li>
+      <li><b>Android:</b> Reklam kişiselleştirmesini cihaz ayarlarından kapatabilir veya reklam kimliğinizi sıfırlayabilirsiniz.</li>
     </ul>
+    <p class="muted">Google'ın verileri nasıl kullandığı: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">policies.google.com/technologies/partner-sites</a></p>
+  </section>
 
-    <h2>Üçüncü Taraf Hizmetler</h2>
-    <p>Uygulama aşağıdaki üçüncü taraf hizmetlerini kullanır; bu hizmetlerin kendi gizlilik politikaları geçerlidir:</p>
+  <section>
+    <h2>Kullanım istatistikleri (Firebase Analytics)</h2>
+    <p>Hangi oyunların ne sıklıkla oynandığını anlamak için Google Firebase Analytics kullanılır. Bu veriler anonim kullanım istatistikleridir; adınız veya iletişim bilgileriniz toplanmaz.</p>
+  </section>
+
+  <section>
+    <h2>Hata raporları (Sentry)</h2>
+    <p>Uygulama çökerse veya bir hata oluşursa, sorunu düzeltebilmemiz için Sentry'ye teknik bir rapor gönderilir. Bu rapor cihaz modeli, işletim sistemi, uygulama sürümü ve hatanın teknik ayrıntılarını içerir; kişisel bilgi içermez.</p>
+  </section>
+
+  <section>
+    <h2>İzinlerinizi nasıl değiştirirsiniz</h2>
     <ul>
-      <li><strong>Google AdMob</strong> — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Gizlilik Politikası</a></li>
-      <li><strong>Google Firebase Analytics</strong> — <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Gizlilik</a></li>
-      <li><strong>Sentry</strong> — <a href="https://sentry.io/privacy/" target="_blank" rel="noopener">Sentry Gizlilik Politikası</a></li>
+      <li><b>iPhone / iPad:</b> Ayarlar → Gizlilik ve Güvenlik → Takip → Hesap Kimde?</li>
+      <li><b>Android:</b> Ayarlar → Google → Reklamlar (veya Gizlilik → Reklamlar)</li>
+      <li>Uygulamayı silmek, cihazınızda saklanan tüm uygulama verilerini de siler.</li>
     </ul>
+  </section>
 
-    <h2>Verilerin Kullanım Amacı</h2>
+  <section>
+    <h2>Çocuklar</h2>
+    <p>Uygulama 13 yaşından küçük çocuklara yönelik değildir ve bilerek bu yaştaki çocuklardan veri toplamaz.</p>
+  </section>
+
+  <section>
+    <h2>Değişiklikler ve iletişim</h2>
+    <p>Bu politika güncellendiğinde değişiklikler bu sayfada yayımlanır ve yukarıdaki tarih güncellenir. Sorularınız için: <a href="mailto:info@hesapkimde.app">info@hesapkimde.app</a></p>
+    <p class="muted">Geliştirici: Hakozi</p>
+  </section>
+</div>
+
+<!-- ======================= ENGLISH ======================= -->
+<div data-en>
+  <h1>Privacy Policy</h1>
+  <div class="date">Last updated: October 7, 2026</div>
+
+  <section>
+    <h2>In short</h2>
+    <p>Who Pays? (Hesap Kimde?) is an offline party game that requires no account or login. No personal information is sent to our servers. The app is free and supported by ads; the third-party services listed below process some device data to show ads and keep the app working properly.</p>
+  </section>
+
+  <section>
+    <h2>Information you enter in the game</h2>
+    <p>Player names you type into the games are used only on your device and are never sent to us or to third parties. The app stores a few small settings, such as how many games you have played, only on your device so it can show the rating prompt at the right time.</p>
+  </section>
+
+  <section>
+    <h2>Advertising (Google AdMob)</h2>
+    <p>Ads are shown through Google AdMob. AdMob may process data such as your advertising ID, device model, operating system version, approximate location (from IP address) and ad interactions.</p>
     <ul>
-      <li>Reklam göstermek ve reklam performansını ölçmek</li>
-      <li>Uygulamanın nasıl kullanıldığını anlamak ve iyileştirmek</li>
-      <li>Hataları ve çökmeleri tespit edip gidermek</li>
+      <li><b>iPhone / iPad:</b> On first launch the app asks for Apple's App Tracking Transparency permission. If you allow it, you may see more relevant, personalized ads. If you decline, your advertising ID is not shared and non-personalized ads are shown.</li>
+      <li><b>European Economic Area, UK and Switzerland:</b> Your ad preferences are also requested through Google's consent dialog.</li>
+      <li><b>Android:</b> You can turn off ad personalization or reset your advertising ID in your device settings.</li>
     </ul>
+    <p class="muted">How Google uses data: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">policies.google.com/technologies/partner-sites</a></p>
+  </section>
 
-    <h2>Reklamlar</h2>
-    <p>Uygulama, Google AdMob aracılığıyla reklam gösterir. AdMob, ilgi alanlarınıza göre olmayan (kişiselleştirilmemiş) reklamlar sunacak şekilde yapılandırılmıştır. Cihaz ayarlarınızdan reklam kişiselleştirmesini sınırlayabilirsiniz.</p>
+  <section>
+    <h2>Usage statistics (Firebase Analytics)</h2>
+    <p>Google Firebase Analytics is used to understand which games are played and how often. This is anonymous usage data; your name and contact details are not collected.</p>
+  </section>
 
-    <h2>Çocukların Gizliliği</h2>
-    <p>Uygulama 13 yaşın altındaki çocuklara yönelik değildir ve bilerek 13 yaş altı çocuklardan veri toplamayız.</p>
+  <section>
+    <h2>Crash reports (Sentry)</h2>
+    <p>If the app crashes or hits an error, a technical report is sent to Sentry so we can fix the problem. The report includes the device model, operating system, app version and technical details of the error; it contains no personal information.</p>
+  </section>
 
-    <h2>Veri Güvenliği</h2>
-    <p>Toplanan tüm veriler aktarım sırasında şifrelenir (HTTPS). Üçüncü taraf hizmetler verileri kendi güvenlik standartlarıyla korur.</p>
-
-    <h2>Değişiklikler</h2>
-    <p>Bu politika zaman zaman güncellenebilir. Güncellemeler bu sayfada yayınlanır.</p>
-
-    <h2>İletişim</h2>
-    <p>Sorularınız için: <a href="mailto:info@hesapkimde.app">info@hesapkimde.app</a></p>
-
-    <a class="back" href="index.html">← Ana sayfaya dön</a>
-  </div>
-
-  <!-- EN -->
-  <div data-en>
-    <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: July 2, 2026</p>
-    <p>This privacy policy explains how the <strong>Who Pays?</strong> ("App") mobile application collects, uses, and protects user data. By using the App, you agree to the practices described in this policy.</p>
-
-    <h2>Data We Collect</h2>
-    <p>The App does <strong>not</strong> directly ask you for personal information (name, email, phone, etc.) and does not require you to create an account. However, the third-party services we use may automatically collect the following data:</p>
+  <section>
+    <h2>How to change your permissions</h2>
     <ul>
-      <li><strong>Approximate location:</strong> To serve regionally relevant ads.</li>
-      <li><strong>Device and advertising identifiers:</strong> Advertising ID and device information.</li>
-      <li><strong>App interactions:</strong> Anonymous usage data about which features are used.</li>
-      <li><strong>Crash and performance data:</strong> Diagnostics and crash logs to detect and fix errors.</li>
+      <li><b>iPhone / iPad:</b> Settings → Privacy &amp; Security → Tracking → Who Pays?</li>
+      <li><b>Android:</b> Settings → Google → Ads (or Privacy → Ads)</li>
+      <li>Deleting the app also deletes all app data stored on your device.</li>
     </ul>
+  </section>
 
-    <h2>Third-Party Services</h2>
-    <p>The App uses the following third-party services, each governed by its own privacy policy:</p>
-    <ul>
-      <li><strong>Google AdMob</strong> — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
-      <li><strong>Google Firebase Analytics</strong> — <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy</a></li>
-      <li><strong>Sentry</strong> — <a href="https://sentry.io/privacy/" target="_blank" rel="noopener">Sentry Privacy Policy</a></li>
-    </ul>
+  <section>
+    <h2>Children</h2>
+    <p>The app is not directed at children under 13 and does not knowingly collect data from them.</p>
+  </section>
 
-    <h2>How We Use Data</h2>
-    <ul>
-      <li>To display ads and measure ad performance</li>
-      <li>To understand and improve how the App is used</li>
-      <li>To detect and fix errors and crashes</li>
-    </ul>
+  <section>
+    <h2>Changes and contact</h2>
+    <p>When this policy is updated, changes are published on this page and the date above is updated. Questions: <a href="mailto:info@hesapkimde.app">info@hesapkimde.app</a></p>
+    <p class="muted">Developer: Hakozi</p>
+  </section>
+</div>
 
-    <h2>Advertising</h2>
-    <p>The App displays ads through Google AdMob, configured to serve non-personalized ads. You can limit ad personalization through your device settings.</p>
+<footer>
+  <a href="index.html" data-tr>← Ana sayfaya dön</a>
+  <a href="index.html" data-en>← Back to home</a>
+  <div style="margin-top:10px">© 2026 Hesap Kimde? · Hakozi</div>
+</footer>
 
-    <h2>Children's Privacy</h2>
-    <p>The App is not directed to children under 13, and we do not knowingly collect data from children under 13.</p>
-
-    <h2>Data Security</h2>
-    <p>All collected data is encrypted in transit (HTTPS). Third-party services protect data according to their own security standards.</p>
-
-    <h2>Changes</h2>
-    <p>This policy may be updated from time to time. Updates will be posted on this page.</p>
-
-    <h2>Contact</h2>
-    <p>For questions: <a href="mailto:info@hesapkimde.app">info@hesapkimde.app</a></p>
-
-    <a class="back" href="index.html">← Back to home</a>
-  </div>
-</main>
-
+</div>
 <script>
   function setLang(l){
-    document.documentElement.lang=l;
-    document.getElementById('btn-tr').classList.toggle('active',l==='tr');
-    document.getElementById('btn-en').classList.toggle('active',l==='en');
-    document.title = l==='en' ? 'Privacy Policy — Who Pays?' : 'Gizlilik Politikası — Hesap Kimde?';
-    try{localStorage.setItem('hk-lang',l)}catch(e){}
+    document.body.classList.toggle('en', l==='en');
+    document.documentElement.lang = l;
+    document.getElementById('b-tr').classList.toggle('on', l==='tr');
+    document.getElementById('b-en').classList.toggle('on', l==='en');
+    try{ localStorage.setItem('hk-lang', l); }catch(e){}
   }
   (function(){
-    var s;try{s=localStorage.getItem('hk-lang')}catch(e){}
-    var n=(navigator.language||'tr').slice(0,2);
-    setLang(s||(n==='en'?'en':'tr'));
+    var l=null;
+    try{ l=localStorage.getItem('hk-lang'); }catch(e){}
+    if(!l){ l=((navigator.language||'tr').slice(0,2)==='tr')?'tr':'en'; }
+    setLang(l);
   })();
 </script>
 </body>
