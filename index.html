@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hesap Kimde? — Eğlenceli Parti Oyunları</title>
+<meta name="description" content="Hesabı kim ödeyecek? Arkadaşlarınla tek telefonda oyna, kaybeden öder. 9 eğlenceli parti oyunu.">
+<meta property="og:title" content="Hesap Kimde?">
+<meta property="og:description" content="Hesabı kim ödeyecek? Kaybeden öder!">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#08080f; --panel:rgba(255,255,255,.035); --line:rgba(255,255,255,.08);
+    --gold:#FFC93C; --gold-deep:#F0A500; --coral:#FF5D73; --mint:#3DDC97; --violet:#8B6DFF;
+    --text:#EDECFF; --dim:#9E9CC8; --dim-2:#6F6D9C;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--text);font-family:'Outfit',system-ui,sans-serif;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  .mono{font-family:'Space Grotesk',monospace}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(600px 420px at 78% -4%,rgba(139,109,255,.28),transparent 70%),
+               radial-gradient(560px 400px at 6% 6%,rgba(255,93,115,.20),transparent 72%),
+               radial-gradient(700px 500px at 50% 108%,rgba(61,220,151,.10),transparent 70%)}
+  body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
+    background-image:radial-gradient(rgba(255,255,255,.9) 1px,transparent 1px);background-size:4px 4px}
+  header,section,footer,.ticker{position:relative;z-index:1}
+
+  /* nav */
+  header{position:sticky;top:0;z-index:60;background:rgba(8,8,15,.7);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px;letter-spacing:-.2px}
+  .brand img{width:40px;height:40px;border-radius:12px;box-shadow:0 8px 22px rgba(255,201,60,.22)}
+  .navr{display:flex;align-items:center;gap:14px}
+  .mainnav{display:flex;gap:26px}
+  .mainnav a{font-size:14.5px;font-weight:600;color:var(--dim)}
+  .mainnav a:hover{color:var(--text)}
+  .navcta{background:var(--gold);color:var(--ink);font-weight:800;font-size:14.5px;padding:11px 20px;border-radius:999px;box-shadow:0 6px 22px rgba(255,201,60,.28);transition:transform .16s,box-shadow .16s}
+  .navcta:hover{color:var(--ink);transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,201,60,.45)}
+  @media(max-width:860px){.mainnav,.navcta{display:none}}
+  .lang{display:flex;gap:3px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:999px;padding:4px}
+  .lang button{border:none;background:transparent;color:var(--dim);font-family:inherit;font-weight:800;font-size:12px;letter-spacing:.6px;padding:7px 14px;border-radius:999px;cursor:pointer;transition:.18s}
+  .lang button.active{background:var(--gold);color:var(--ink)}
+
+  /* hero */
+  .hero{display:flex;flex-wrap:wrap;gap:56px;align-items:center;padding:64px 24px 40px;max-width:1180px;margin:0 auto}
+  .hcol{flex:1 1 440px;min-width:300px}
+  .kicker{display:inline-flex;align-items:center;gap:9px;font-family:'Space Grotesk',monospace;font-size:11.5px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold);background:rgba(255,201,60,.08);border:1px solid rgba(255,201,60,.26);border-radius:999px;padding:8px 16px;margin-bottom:26px}
+  .kicker .pulse{width:7px;height:7px;border-radius:50%;background:var(--coral);animation:pulse 1.7s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,93,115,.65)}70%{box-shadow:0 0 0 10px rgba(255,93,115,0)}100%{box-shadow:0 0 0 0 rgba(255,93,115,0)}}
+  h1{font-size:clamp(42px,6.4vw,80px);font-weight:900;line-height:.98;letter-spacing:-2.6px;margin-bottom:20px;text-wrap:balance}
+  h1 .hl{position:relative;display:inline-block;color:var(--gold);white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.1em;height:.16em;background:rgba(255,93,115,.42);border-radius:4px;transform:rotate(-1.4deg);z-index:-1}
+  .sub{font-size:clamp(16px,1.5vw,19.5px);color:var(--dim);max-width:520px;margin-bottom:32px;text-wrap:pretty}
+  .dl{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+  .store{display:flex;align-items:center;gap:12px;background:var(--text);color:var(--ink);padding:14px 24px;border-radius:16px;font-weight:800;min-width:200px;transition:transform .16s,box-shadow .16s}
+  .store:hover{transform:translateY(-3px);box-shadow:0 18px 34px rgba(237,236,255,.18);color:var(--ink)}
+  .store.ghost{background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.14)}
+  .store.ghost:hover{box-shadow:none;border-color:rgba(255,255,255,.32);color:var(--text)}
+  .store svg{width:25px;height:25px;flex-shrink:0}
+  .store .t{display:flex;flex-direction:column;line-height:1.15;text-align:left}
+  .store .t small{font-size:10.5px;font-weight:700;opacity:.7}
+  .store .t span{font-size:16px;font-weight:800}
+  .proof{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:'Space Grotesk',monospace;font-size:12.5px;font-weight:500;letter-spacing:.6px;color:#7B79A8;text-transform:uppercase}
+
+  /* picker */
+  .pwrap{flex:1 1 380px;min-width:300px;position:relative;display:flex;justify-content:center}
+  .pglow{position:absolute;top:-6%;left:-2%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,201,60,.35),transparent 65%);animation:glow 4s ease-in-out infinite;pointer-events:none}
+  @keyframes glow{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.08)}}
+  .fl1,.fl2{position:absolute;filter:drop-shadow(0 10px 18px rgba(0,0,0,.5))}
+  .fl1{top:-18px;right:6%;font-size:34px;animation:float1 4.4s ease-in-out infinite}
+  .fl2{bottom:6%;left:0;font-size:26px;animation:float2 5.2s ease-in-out infinite}
+  @keyframes float1{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-16px) rotate(-4deg)}}
+  @keyframes float2{0%,100%{transform:translateY(0) rotate(12deg)}50%{transform:translateY(-12px) rotate(6deg)}}
+  .picker{position:relative;width:100%;max-width:400px;background:linear-gradient(170deg,rgba(30,30,64,.92),rgba(15,15,32,.94));border:1px solid rgba(255,255,255,.11);border-radius:30px;padding:26px 24px 28px;box-shadow:0 34px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(8px)}
+  .ptop{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;font-family:'Space Grotesk',monospace;font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--dim)}
+  .ptop .live{font-size:10.5px;letter-spacing:1.4px;color:var(--mint)}
+  .avatars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 10px;margin-bottom:20px;min-height:96px;padding-top:6px}
+  .av{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:30px;border-radius:18px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.09);transition:transform .2s,background .2s,border-color .2s,box-shadow .2s}
+  .av.chosen{background:rgba(255,201,60,.16);border-color:var(--gold);transform:translateY(-6px) scale(1.06);box-shadow:0 14px 28px rgba(255,201,60,.3)}
+  .av .tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%) scale(0);background:var(--coral);color:#fff;font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap;transition:transform .22s}
+  .av.done.chosen .tag{transform:translateX(-50%) scale(1)}
+  .addrow{display:flex;gap:8px;margin-bottom:18px}
+  .addrow input{flex:1;min-width:0;font-family:inherit;font-size:14px;color:var(--text);background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 14px}
+  .addrow input::placeholder{color:#7B79A8}
+  .addrow input:focus{outline:none;border-color:var(--gold)}
+  .addrow button{font-family:inherit;font-weight:800;font-size:14px;color:var(--text);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px 18px;cursor:pointer;transition:.18s}
+  .addrow button:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+  .ptop b{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:3px 9px;font-size:11px;color:var(--text)}
+  .av{flex-direction:column;gap:4px;font-size:28px;min-width:0;aspect-ratio:auto;min-height:84px;padding:12px 6px 10px}
+  .av .nm{font-family:'Space Grotesk',monospace;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--dim);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .av .x{position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;background:#15151f;border:1px solid rgba(255,255,255,.16);color:var(--dim);font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:.18s;padding:0}
+  .av:hover .x{opacity:1}
+  .av .x:hover{background:var(--coral);border-color:var(--coral);color:#fff}
+  .av.rolling{border-color:var(--gold);background:rgba(255,201,60,.14);box-shadow:0 0 22px rgba(255,201,60,.45)}
+  .part{position:absolute;pointer-events:none;user-select:none;font-size:20px;z-index:40;animation:fly 1.3s cubic-bezier(.12,.8,.32,1) forwards}
+  @keyframes fly{0%{opacity:1;transform:translate(0,0) scale(.6)}55%{opacity:1;transform:translate(var(--tx),var(--ty)) scale(1.25)}100%{opacity:0;transform:translate(calc(var(--tx)*1.5),calc(var(--ty) - 34px)) scale(.8)}}
+  .result{min-height:44px;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.12);border-radius:14px;padding:10px 14px;margin-bottom:16px;font-size:14.5px;font-weight:700}
+  .spin{width:100%;border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:16px;letter-spacing:.3px;color:var(--ink);background:linear-gradient(120deg,var(--gold),var(--gold-deep));padding:15px;border-radius:16px;transition:transform .15s,box-shadow .15s}
+  .spin:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(255,201,60,.34)}
+  .spin:active{transform:translateY(0)}
+
+  /* ticker */
+  .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.02);padding:16px 0;overflow:hidden}
+  .track{display:flex;width:max-content;animation:marquee 26s linear infinite}
+  .track>div{display:flex;gap:38px;padding-right:38px;font-family:'Space Grotesk',monospace;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim-2);white-space:nowrap}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* sections */
+  section.block{padding:76px 24px 8px;max-width:1180px;margin:0 auto}
+  .shead{text-align:center;margin-bottom:44px}
+  .shead .eb{display:block;font-family:'Space Grotesk',monospace;font-size:11.5px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;margin-bottom:14px}
+  .shead h2{font-size:clamp(28px,3.6vw,44px);font-weight:800;letter-spacing:-1.2px}
+  .big7{color:var(--gold);font-size:1.2em;text-shadow:0 0 30px rgba(255,201,60,.45)}
+
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:940px;margin:0 auto}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:28px 24px}
+  .step .n{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',monospace;font-size:18px;font-weight:700;margin-bottom:16px}
+  .step h4{font-size:18px;font-weight:800;margin-bottom:6px}
+  .step p{font-size:14.5px;color:var(--dim)}
+
+  .games{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:16px}
+  .game{position:relative;overflow:hidden;border-radius:24px;padding:26px 24px;transition:transform .22s,border-color .22s,box-shadow .22s;
+    background:linear-gradient(165deg,color-mix(in srgb,var(--a) 9%,transparent),rgba(20,20,42,.9));
+    border:1px solid color-mix(in srgb,var(--a) 20%,transparent)}
+  .game:hover{transform:translateY(-7px);border-color:color-mix(in srgb,var(--a) 52%,transparent);box-shadow:0 22px 46px rgba(0,0,0,.45)}
+  .game::after{content:"";position:absolute;top:-50px;right:-50px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--a),transparent 70%);opacity:.16;pointer-events:none}
+  .game .badge{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:18px;
+    background:color-mix(in srgb,var(--a) 13%,transparent);border:1px solid color-mix(in srgb,var(--a) 32%,transparent)}
+  .game .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .game .cnt{font-family:'Space Grotesk',monospace;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:color-mix(in srgb,var(--a) 85%,white);background:color-mix(in srgb,var(--a) 14%,transparent);border:1px solid color-mix(in srgb,var(--a) 28%,transparent);border-radius:999px;padding:6px 12px;white-space:nowrap}
+  .game .badge.png img{width:40px;height:40px;object-fit:contain}
+  .track img{width:22px;height:22px;object-fit:contain;vertical-align:-5px}
+  .game h3{font-size:19px;font-weight:800;margin-bottom:3px}
+  .game .en{display:block;font-family:'Space Grotesk',monospace;font-size:11.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim-2);margin-bottom:9px}
+  .game p{font-size:14px;color:var(--dim);line-height:1.5}
+
+  .orbit{position:relative;width:min(760px,100%);aspect-ratio:1;margin:0 auto;container-type:inline-size}
+  .orbit .ring{position:absolute;inset:11cqw;border-radius:50%;border:1.5px dashed rgba(255,255,255,.12);animation:spin 70s linear infinite;pointer-events:none}
+  .orbit .ring::after{content:"";position:absolute;inset:-6cqw;border-radius:50%;background:radial-gradient(circle,rgba(255,201,60,.10),transparent 62%)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .core{position:absolute;left:50%;top:50%;width:48cqw;height:48cqw;transform:translate(-50%,-50%);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:0 5.5cqw;
+    background:radial-gradient(circle at 50% 30%,rgba(40,38,82,.96),rgba(14,14,30,.97) 70%);border:1px solid rgba(255,255,255,.1);box-shadow:0 40px 90px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08),0 0 0 10px rgba(255,255,255,.02)}
+  .core-logo{width:84px;height:84px;border-radius:24px;box-shadow:0 14px 34px rgba(255,201,60,.28)}
+  .core-txt{display:flex;flex-direction:column;align-items:center;gap:6px;transition:opacity .25s,transform .25s}
+  .core-txt.fade{opacity:0;transform:translateY(6px)}
+  .core-n{font-size:11.5px;font-weight:700;letter-spacing:2.4px;color:var(--dim-2)}
+  .core h3{font-size:26px;font-weight:900;letter-spacing:-.6px;color:var(--ac,#FFC93C);line-height:1.1}
+  .core p{font-size:15px;color:var(--dim);line-height:1.45;max-width:270px;text-wrap:pretty}
+  .node{position:absolute;left:50%;top:50%;width:150px;display:flex;flex-direction:column;align-items:center;gap:9px;background:none;border:none;cursor:pointer;font-family:inherit;color:var(--text);
+    --ang:calc(var(--i) * 40deg - 90deg);
+    transform:translate(-50%,-50%) rotate(var(--ang)) translate(39cqw) rotate(calc(-1 * var(--ang)))}
+  .node .nb{width:clamp(78px,15cqw,112px);height:clamp(78px,15cqw,112px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:clamp(36px,7cqw,52px);
+    background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--a) 22%,#15152b),#11111f);border:1.5px solid color-mix(in srgb,var(--a) 34%,transparent);transition:transform .25s,border-color .25s,box-shadow .25s}
+  .node .nb img{width:60%;height:60%;object-fit:contain}
+  .node .nl{font-size:15px;font-weight:800;white-space:nowrap;color:var(--dim);transition:color .25s}
+  .node:hover .nb,.node.on .nb{transform:scale(1.12);border-color:var(--a);box-shadow:0 0 0 6px color-mix(in srgb,var(--a) 14%,transparent),0 16px 34px color-mix(in srgb,var(--a) 30%,transparent)}
+  .node.on .nl,.node:hover .nl{color:var(--text)}
+  .node:focus-visible{outline:none}.node:focus-visible .nb{border-color:var(--a)}
+  @media(max-width:720px){
+    .orbit{aspect-ratio:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 8px;container-type:normal}
+    .orbit .ring{display:none}
+    .core{position:static;grid-column:1/-1;transform:none;width:auto;height:auto;border-radius:28px;padding:28px 22px;margin-bottom:8px}
+    .core-logo{width:64px;height:64px;border-radius:18px}
+    .node{position:static;transform:none;width:auto}
+    .node .nl{white-space:normal;text-align:center;font-size:12.5px}
+    .node .nb{width:68px;height:68px;font-size:31px}
+    .node .nb img{width:60%;height:60%}
+  }
+  .feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:960px;margin:0 auto}
+  @media(max-width:760px){.feats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:480px){.feats{grid-template-columns:1fr}}
+  .chip{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 20px;font-size:15px;font-weight:700}
+  .chip span.i{font-size:22px}
+
+  .cta{position:relative;overflow:hidden;text-align:center;max-width:860px;margin:0 auto;background:linear-gradient(150deg,rgba(139,109,255,.16),rgba(20,20,42,.94));border:1px solid rgba(255,255,255,.1);border-radius:32px;padding:56px 28px}
+  .cta::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(400px 240px at 50% 0%,rgba(255,201,60,.18),transparent 70%)}
+  .cta h2{position:relative;font-size:clamp(26px,3.4vw,40px);font-weight:900;letter-spacing:-1.2px;margin-bottom:14px}
+  .cta p{position:relative;color:var(--dim);margin:0 auto 30px;font-size:17px;max-width:460px}
+  .cta .dl{position:relative;justify-content:center;margin-bottom:0}
+
+  .trust{position:relative;display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:center;margin-top:30px}
+  .trust span{font-family:'Space Grotesk',monospace;font-size:12.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:10px 16px}
+  footer{border-top:1px solid var(--line);margin-top:60px;padding:40px 24px 48px}
+  .fin{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+  .fbrand{display:flex;align-items:center;gap:11px;font-weight:800}
+  .fbrand img{width:30px;height:30px;border-radius:9px}
+  .flinks{display:flex;gap:24px;flex-wrap:wrap}
+  .flinks a{color:var(--dim);font-size:14px;font-weight:700;transition:color .15s}
+  .flinks a:hover{color:var(--gold)}
+  .copy{font-family:'Space Grotesk',monospace;font-size:12.5px;color:var(--dim-2)}
+
+  .rev{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+  .rev.in{opacity:1;transform:none}
+  html[lang="tr"] [data-en]{display:none !important}
+  html[lang="en"] [data-tr]{display:none !important}
+  @media (prefers-reduced-motion:reduce){*{animation:none !important}.rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand"><img src="icon.png" alt="Hesap Kimde?"><span data-tr>Hesap Kimde?</span><span data-en>Who Pays?</span></div>
+    <div class="navr">
+      <nav class="mainnav">
+        <a href="#games"><span data-tr>Oyunlar</span><span data-en>Games</span></a>
+        <a href="#nasil"><span data-tr>Nasıl Oynanır</span><span data-en>How to play</span></a>
+        <a href="#ozellikler"><span data-tr>Özellikler</span><span data-en>Features</span></a>
+      </nav>
+      <div class="lang">
+        <button id="btn-tr" class="active" onclick="setLang('tr')">TR</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+      <a class="navcta" href="#download"><span data-tr>Hemen İndir</span><span data-en>Download</span></a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hcol">
+    <span class="kicker"><span class="pulse"></span><span data-tr>Eğlenceli Parti Oyunları</span><span data-en>Fun Party Games</span></span>
+    <h1><span data-tr>Hesabı kim <span class="hl">ödeyecek?</span></span><span data-en>Who's gonna <span class="hl">pay?</span></span></h1>
+    <p class="sub" data-tr>Kafede, restoranda ya da evde — tek telefonla arkadaşlarınla oyna. Şans, refleks ve biraz kader. Kaybeden öder!</p>
+    <p class="sub" data-en>At a café, a restaurant, or at home — play with friends on one phone. Luck, reflexes, and a bit of fate. The loser pays!</p>
+
+    <div class="dl">
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.hakozi.hesapkimde" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M3 2.5c-.3.2-.5.6-.5 1.1v16.8c0 .5.2.9.5 1.1l9.3-9.5L3 2.5z" fill="#22c55e"/><path d="M16.5 8.2L4.6 1.5C4.2 1.3 3.8 1.3 3.5 1.5l9.1 9.3 3.9-2.6z" fill="#FFC93C"/><path d="M20.3 10.4l-3.8-2.2-4 4.1 4 4 3.8-2.2c.8-.5.8-1.7 0-2.2v-1.5z" fill="#FF5D73"/><path d="M3.5 22.5c.3.2.7.2 1.1 0l11.9-6.7-3.9-2.6-9.1 9.3z" fill="#8B6DFF"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Get it on</small><span>Google Play</span></span>
+      </a>
+      <a class="store ghost" href="https://apps.apple.com/app/id6781272465" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.3 2.7 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 1.9-1.1 2.6-2.2.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.5z M14.2 5.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Download on the</small><span>App Store</span></span>
+      </a>
+    </div>
+
+    <div class="proof">
+      <span data-tr>9 mod</span><span data-en>9 modes</span>
+      <span data-tr>İnternet gerekmez</span><span data-en>No internet needed</span>
+      <span data-tr>Türkçe &amp; İngilizce</span><span data-en>Turkish &amp; English</span>
+    </div>
+  </div>
+
+  <div class="pwrap">
+    <div class="pglow"></div>
+    <div class="fl1" aria-hidden="true">💸</div>
+    <div class="fl2" aria-hidden="true">🪙</div>
+    <div class="picker">
+      <div class="ptop">
+        <span><span data-tr>Kim ödeyecek dersin?</span><span data-en>Who do you think pays?</span> <b id="pcount">4</b></span>
+        <span class="live"><span data-tr>Canlı deneme</span><span data-en>Live demo</span></span>
+      </div>
+      <form class="addrow" onsubmit="addPlayer(event)">
+        <input id="newp" maxlength="12" autocomplete="off" placeholder="Arkadaş ekle… (örn. Burak)">
+        <button type="submit"><span data-tr>Ekle</span><span data-en>Add</span></button>
+      </form>
+      <div class="avatars" id="avatars"></div>
+      <div class="result" id="result"></div>
+      <button class="spin" onclick="pick()"><span data-tr>Kaderi belirle 🎲</span><span data-en>Decide fate 🎲</span></button>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="track">
+    <div>
+      <span>🎡 <span data-tr>Çark</span><span data-en>Wheel</span></span><span style="color:#FFC93C">·</span>
+      <span>💣 <span data-tr>Saatli Bomba</span><span data-en>Time Bomb</span></span><span style="color:#FF5D73">·</span>
+      <span>🎨 <span data-tr>Renkli Çöp</span><span data-en>Colorful Straws</span></span><span style="color:#3DDC97">·</span>
+      <span>👆 <span data-tr>Parmak Rulet</span><span data-en>Finger Roulette</span></span><span style="color:#8B6DFF">·</span>
+      <span>🍕 <span data-tr>Yanık Pizza</span><span data-en>Burnt Pizza</span></span><span style="color:#FFC93C">·</span>
+      <span>🃏 <span data-tr>Kart Çek</span><span data-en>Draw a Card</span></span><span style="color:#FF5D73">·</span>
+      <span>🎯 <span data-tr>Renk Savaşı</span><span data-en>Color Battle</span></span><span style="color:#3DDC97">·</span>
+      <span><img src="zaratisi.png" alt=""> <span data-tr>Zar At</span><span data-en>Roll the Dice</span></span><span style="color:#8B6DFF">·</span>
+      <span><img src="taskagitmakas.png" alt=""> <span data-tr>Taş Kağıt Makas</span><span data-en>Rock Paper Scissors</span></span><span style="color:#FFC93C">·</span>
+    </div>
+    <div aria-hidden="true">
+      <span>🎡 <span data-tr>Çark</span><span data-en>Wheel</span></span><span style="color:#FFC93C">·</span>
+      <span>💣 <span data-tr>Saatli Bomba</span><span data-en>Time Bomb</span></span><span style="color:#FF5D73">·</span>
+      <span>🎨 <span data-tr>Renkli Çöp</span><span data-en>Colorful Straws</span></span><span style="color:#3DDC97">·</span>
+      <span>👆 <span data-tr>Parmak Rulet</span><span data-en>Finger Roulette</span></span><span style="color:#8B6DFF">·</span>
+      <span>🍕 <span data-tr>Yanık Pizza</span><span data-en>Burnt Pizza</span></span><span style="color:#FFC93C">·</span>
+      <span>🃏 <span data-tr>Kart Çek</span><span data-en>Draw a Card</span></span><span style="color:#FF5D73">·</span>
+      <span>🎯 <span data-tr>Renk Savaşı</span><span data-en>Color Battle</span></span><span style="color:#3DDC97">·</span>
+      <span><img src="zaratisi.png" alt=""> <span data-tr>Zar At</span><span data-en>Roll the Dice</span></span><span style="color:#8B6DFF">·</span>
+      <span><img src="taskagitmakas.png" alt=""> <span data-tr>Taş Kağıt Makas</span><span data-en>Rock Paper Scissors</span></span><span style="color:#FFC93C">·</span>
+    </div>
+  </div>
+</div>
+
+<section class="block rev" id="nasil">
+  <div class="shead">
+    <span class="eb" style="color:#FF5D73"><span data-tr>Nasıl oynanır</span><span data-en>How to play</span></span>
+    <h2><span data-tr>Üç adımda karar</span><span data-en>Settled in three steps</span></h2>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="n" style="background:rgba(255,201,60,.12);border:1px solid rgba(255,201,60,.3);color:#FFC93C">01</div><h4 data-tr>Bir oyun seç</h4><h4 data-en>Pick a game</h4><p data-tr>Dokuz moddan birini aç.</p><p data-en>Open one of the mini-games.</p></div>
+    <div class="step"><div class="n" style="background:rgba(255,93,115,.12);border:1px solid rgba(255,93,115,.3);color:#FF5D73">02</div><h4 data-tr>Telefonu masaya koy</h4><h4 data-en>Put it on the table</h4><p data-tr>Herkes aynı telefonda oynar.</p><p data-en>Everyone plays on the same phone.</p></div>
+    <div class="step"><div class="n" style="background:rgba(61,220,151,.12);border:1px solid rgba(61,220,151,.3);color:#3DDC97">03</div><h4 data-tr>Kaybeden öder</h4><h4 data-en>Loser pays</h4><p data-tr>Kader bir kişiyi seçer. Hesap onda!</p><p data-en>Fate picks one. The bill's on them!</p></div>
+  </div>
+</section>
+
+<section class="block rev" id="games">
+  <div class="shead">
+    <span class="eb" style="color:#8B6DFF"><span data-tr>Oyunlar</span><span data-en>Games</span></span>
+    <h2><span class="big7">9</span> <span data-tr>oyun, tek soru: kim öder?</span><span data-en>games, one question: who pays?</span></h2>
+  </div>
+  <div class="orbit" id="orbit">
+    <div class="ring"></div>
+    <div class="core">
+      <img class="core-logo" src="icon.png" alt="Hesap Kimde?">
+      <div class="core-txt" id="coreTxt">
+        <span class="core-n mono" id="coreN">01 / 09</span>
+        <h3 id="coreT">Çark</h3>
+        <p id="coreD">Çarkı çevir, talih kime gülecek gör.</p>
+      </div>
+    </div>
+    <button class="node" type="button" style="--a:#FFC93C;--i:0" data-i="0"><span class="nb">🎡</span><span class="nl" data-tr>Çark</span><span class="nl" data-en>Wheel</span></button>
+    <button class="node" type="button" style="--a:#FF5D73;--i:1" data-i="1"><span class="nb">💣</span><span class="nl" data-tr>Saatli Bomba</span><span class="nl" data-en>Time Bomb</span></button>
+    <button class="node" type="button" style="--a:#3DDC97;--i:2" data-i="2"><span class="nb">🎨</span><span class="nl" data-tr>Renkli Çöp</span><span class="nl" data-en>Colorful Straws</span></button>
+    <button class="node" type="button" style="--a:#8B6DFF;--i:3" data-i="3"><span class="nb">👆</span><span class="nl" data-tr>Parmak Rulet</span><span class="nl" data-en>Finger Roulette</span></button>
+    <button class="node" type="button" style="--a:#FFC93C;--i:4" data-i="4"><span class="nb">🍕</span><span class="nl" data-tr>Yanık Pizza</span><span class="nl" data-en>Burnt Pizza</span></button>
+    <button class="node" type="button" style="--a:#FF5D73;--i:5" data-i="5"><span class="nb">🃏</span><span class="nl" data-tr>Kart Çek</span><span class="nl" data-en>Draw a Card</span></button>
+    <button class="node" type="button" style="--a:#3DDC97;--i:6" data-i="6"><span class="nb">🎯</span><span class="nl" data-tr>Renk Savaşı</span><span class="nl" data-en>Color Battle</span></button>
+    <button class="node" type="button" style="--a:#8B6DFF;--i:7" data-i="7"><span class="nb"><img src="zaratisi.png" alt=""></span><span class="nl" data-tr>Zar At</span><span class="nl" data-en>Roll the Dice</span></button>
+    <button class="node" type="button" style="--a:#FFC93C;--i:8" data-i="8"><span class="nb"><img src="taskagitmakas.png" alt=""></span><span class="nl" data-tr>Taş Kağıt Makas</span><span class="nl" data-en>Rock Paper Scissors</span></button>
+  </div>
+</section>
+
+<section class="block rev" id="ozellikler">
+  <div class="shead">
+    <span class="eb" style="color:#3DDC97"><span data-tr>Neden</span><span data-en>Why</span></span>
+    <h2><span data-tr>Buluşmaların vazgeçilmezi</span><span data-en>A must for every meet-up</span></h2>
+  </div>
+  <div class="feats">
+    <div class="chip"><span class="i">📱</span><span data-tr>Tek telefon yeter</span><span data-en>One phone is enough</span></div>
+    <div class="chip"><span class="i">✈️</span><span data-tr>İnternet gerekmez</span><span data-en>No internet needed</span></div>
+    <div class="chip"><span class="i">⚡</span><span data-tr>Saniyeler içinde başla</span><span data-en>Start in seconds</span></div>
+    <div class="chip"><span class="i">🌍</span><span data-tr>Türkçe &amp; İngilizce</span><span data-en>Turkish &amp; English</span></div>
+    <div class="chip"><span class="i">🎉</span><span data-tr>Sınırsız eğlence</span><span data-en>Endless fun</span></div>
+    <div class="chip"><span class="i">🤝</span><span data-tr>Hesap kavgasına son</span><span data-en>No more bill fights</span></div>
+  </div>
+</section>
+
+<section class="block rev" id="download" style="padding-top:80px">
+  <div class="cta">
+    <h2 data-tr>Sıradaki buluşmaya hazır mısın?</h2>
+    <h2 data-en>Ready for your next meet-up?</h2>
+    <p data-tr>İndir, masaya koy — gerisini oyun halleder.</p>
+    <p data-en>Download, put it on the table — the game does the rest.</p>
+    <div class="dl">
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.hakozi.hesapkimde" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M3 2.5c-.3.2-.5.6-.5 1.1v16.8c0 .5.2.9.5 1.1l9.3-9.5L3 2.5z" fill="#22c55e"/><path d="M16.5 8.2L4.6 1.5C4.2 1.3 3.8 1.3 3.5 1.5l9.1 9.3 3.9-2.6z" fill="#FFC93C"/><path d="M20.3 10.4l-3.8-2.2-4 4.1 4 4 3.8-2.2c.8-.5.8-1.7 0-2.2v-1.5z" fill="#FF5D73"/><path d="M3.5 22.5c.3.2.7.2 1.1 0l11.9-6.7-3.9-2.6-9.1 9.3z" fill="#8B6DFF"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Get it on</small><span>Google Play</span></span>
+      </a>
+      <a class="store ghost" href="https://apps.apple.com/app/id6781272465" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.3 2.7 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 1.9-1.1 2.6-2.2.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.5z M14.2 5.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>
+        <span class="t"><small data-tr>İndir</small><small data-en>Download on the</small><span>App Store</span></span>
+      </a>
+    </div>
+    <div class="trust">
+      <span><span data-tr>Tamamen ücretsiz</span><span data-en>Completely free</span></span>
+      <span><span data-tr>Üyelik yok</span><span data-en>No sign-up</span></span>
+      <span><span data-tr>Çevrimdışı çalışır</span><span data-en>Works offline</span></span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fin">
+    <div class="fbrand"><img src="icon.png" alt=""><span data-tr>Hesap Kimde?</span><span data-en>Who Pays?</span></div>
+    <div class="flinks">
+      <a href="#games" data-tr>Oyunlar</a><a href="#games" data-en>Games</a>
+      <a href="privacy.html" data-tr>Gizlilik</a><a href="privacy.html" data-en>Privacy</a>
+      <a href="contact.html" data-tr>İletişim</a><a href="contact.html" data-en>Contact</a>
+    </div>
+    <div class="copy"><span data-tr>© 2026 Hesap Kimde? · Hakozi</span><span data-en>© 2026 Who Pays? · Hakozi</span></div>
+  </div>
+</footer>
+
+<script>
+  var TXT = {
+    tr:{idle:"Kaderi belirle, hesabı kim ödeyecek gör.",pre:"🚨 Hesap ",post:"'e kaldı! 💸",
+        pays:"öder!",rm:"Masadan çıkar",max:"⚠️ En fazla 8 kişi.",dup:" zaten masada!",
+        added:" masaya eklendi, şansı bol olsun!",left:" masadan kalktı.",ph:"Arkadaş ekle… (örn. Burak)",
+        roll:["Kader çarkı dönüyor… 🌀","Gözler cüzdanlara çevrildi… 👀","Masa gerilimle dondu… ⚡","Kasa kime emanet? 💰"]},
+    en:{idle:"Decide fate and see who gets the bill.",pre:"🚨 The bill goes to ",post:"! 💸",
+        pays:"pays!",rm:"Remove",max:"⚠️ Up to 8 players.",dup:" is already at the table!",
+        added:" joined the table. Good luck!",left:" left the table.",ph:"Add a friend… (e.g. Burak)",
+        roll:["Fate is spinning… 🌀","All eyes on the wallets… 👀","The table freezes… ⚡","Who gets the bill? 💰"]}
+  };
+  var LANG='tr';
+  function setLang(l){
+    LANG=l;
+    document.documentElement.lang=l;
+    document.getElementById('btn-tr').classList.toggle('active',l==='tr');
+    document.getElementById('btn-en').classList.toggle('active',l==='en');
+    document.title = l==='en' ? 'Who Pays? — Fun Party Games' : 'Hesap Kimde? — Eğlenceli Parti Oyunları';
+    var inp=document.getElementById('newp'); if(inp) inp.placeholder = TXT[l].ph;
+    if(typeof render==='function') render();
+    if(typeof showGame==='function' && document.getElementById('coreT')) showGame(gi||0,true);
+    if(!spinning){
+      if(lastWin) say(TXT[l].pre+'<b>'+lastWin.e+' '+esc(lastWin.n)+'</b>'+TXT[l].post);
+      else say(TXT[l].idle);
+    }
+    try{localStorage.setItem('hk-lang',l)}catch(e){}
+  }
+
+  var players=[{n:'Ali',e:'😎'},{n:'Zeynep',e:'🥳'},{n:'Mert',e:'😏'},{n:'Can',e:'🤠'}];
+  var POOL=['😎','🥳','🤠','🤩','🦊','👾','🚀','⚡','🎉','🔥','👻','🐱'];
+  var spinning=false, lastWin=null;
+
+  function render(){
+    var g=document.getElementById('avatars');
+    g.style.gridTemplateColumns='repeat(4,minmax(0,1fr))';
+    document.getElementById('pcount').textContent=players.length;
+    g.innerHTML=players.map(function(p,i){
+      return '<div class="av">'+
+        (players.length>2?'<button class="x" type="button" title="'+T().rm+'" onclick="delPlayer(event,'+i+')">×</button>':'')+
+        '<span>'+p.e+'</span><span class="nm">'+esc(p.n)+'</span>'+
+        '<span class="tag">'+T().pays+'</span></div>';
+    }).join('');
+  }
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function T(){return TXT[LANG]}
+  function say(html){document.getElementById('result').innerHTML='<span>'+html+'</span>'}
+
+  function addPlayer(e){
+    e.preventDefault();
+    if(spinning)return;
+    var inp=document.getElementById('newp'), n=inp.value.trim();
+    if(!n)return;
+    if(players.length>=8){say(T().max);return}
+    if(players.some(function(p){return p.n.toLowerCase()===n.toLowerCase()})){say(esc(n)+T().dup);return}
+    players.push({n:n,e:POOL[Math.floor(Math.random()*POOL.length)]});
+    inp.value=''; lastWin=null; render(); say('👋 <b>'+esc(n)+'</b>'+T().added);
+  }
+  function delPlayer(e,i){
+    e.stopPropagation();
+    if(spinning||players.length<=2)return;
+    var g=players[i].n; players.splice(i,1); lastWin=null; render(); say('🚪 <b>'+esc(g)+'</b>'+T().left);
+  }
+
+  function burst(el){
+    var pod=document.querySelector('.picker'), pr=pod.getBoundingClientRect(), r=el.getBoundingClientRect();
+    var ox=r.left-pr.left+r.width/2, oy=r.top-pr.top+r.height/2, ic=['💸','🪙','✨','💳','🎉','🍕'];
+    for(var i=0;i<13;i++){
+      var s=document.createElement('span'); s.className='part'; s.textContent=ic[Math.floor(Math.random()*ic.length)];
+      s.style.left=ox+'px'; s.style.top=oy+'px';
+      var a=Math.random()*6.283, d=50+Math.random()*70;
+      s.style.setProperty('--tx',Math.cos(a)*d+'px');
+      s.style.setProperty('--ty',(Math.sin(a)*d-30)+'px');
+      pod.appendChild(s);
+      setTimeout(function(x){return function(){x.remove()}}(s),1400);
+    }
+  }
+
+  function pick(){
+    if(spinning)return;
+    spinning=true; lastWin=null;
+    var avs=document.querySelectorAll('#avatars .av'), res=document.getElementById('result');
+    avs.forEach(function(a){a.classList.remove('chosen','done','rolling')});
+    var mi=0; say(T().roll[0]);
+    var mt=setInterval(function(){mi=(mi+1)%T().roll.length;say(T().roll[mi])},560);
+    var i=0, step=0, total=16+Math.floor(Math.random()*players.length*2), speed=65;
+    (function tick(){
+      avs.forEach(function(a){a.classList.remove('rolling')});
+      avs[i%avs.length].classList.add('rolling');
+      step++; i++;
+      if(step<total){
+        if(step>total-8)speed+=40; else if(step>total-14)speed+=18;
+        setTimeout(tick,speed);
+      }else{
+        clearInterval(mt);
+        var w=(i-1+players.length)%players.length, el=avs[w];
+        avs.forEach(function(a){a.classList.remove('rolling')});
+        el.classList.add('chosen','done'); burst(el);
+        lastWin=players[w]; spinning=false;
+        say(T().pre+'<b>'+lastWin.e+' '+esc(lastWin.n)+'</b>'+T().post);
+      }
+    })();
+  }
+
+  var GAMES=[
+    {a:'#FFC93C',tr:['Çark','Çarkı çevir, talih kime gülecek gör.'],en:['Wheel','Spin the wheel, see who fortune favors.']},
+    {a:'#FF5D73',tr:['Saatli Bomba','Telefonu elden ele geçir; bomba kimde patlarsa o öder!'],en:['Time Bomb','Pass it around; whoever holds it when it blows, pays!']},
+    {a:'#3DDC97',tr:['Renkli Çöp','En kısa çöpü çeken kaybeder.'],en:['Colorful Straws','Pick the shortest straw and lose.']},
+    {a:'#8B6DFF',tr:['Parmak Rulet','Herkes parmağını bassın, kader birini seçsin.'],en:['Finger Roulette','Everyone holds a finger, fate picks one.']},
+    {a:'#FFC93C',tr:['Yanık Pizza','Yanık dilim kimde kalırsa o öder.'],en:['Burnt Pizza','Whoever gets the burnt slice pays.']},
+    {a:'#FF5D73',tr:['Kart Çek','Şanssız kartı çeken ödemeye hazırlansın.'],en:['Draw a Card','Draw the unlucky card and get ready to pay.']},
+    {a:'#3DDC97',tr:['Renk Savaşı','İki kişi yarışsın, hızlı olan kazansın.'],en:['Color Battle','Two players race — the fastest wins.']},
+    {a:'#8B6DFF',tr:['Zar At','Zarları atın, en düşük puan alan ödesin.'],en:['Roll the Dice','Throw the dice, lowest score pays.']},
+    {a:'#FFC93C',tr:['Taş Kağıt Makas','Klasik oyun, bu kez hesap için. En az puan alan öder.'],en:['Rock Paper Scissors','The classic, now with the bill on the line. Lowest score pays.']}
+  ];
+  var gi=0, gTimer=null, gPause=false;
+  function showGame(i,instant){
+    gi=i;
+    var ns=document.querySelectorAll('#orbit .node'); ns.forEach(function(n,k){n.classList.toggle('on',k===i)});
+    var box=document.getElementById('coreTxt'), g=GAMES[i], t=g[LANG]||g.tr;
+    function fill(){
+      document.getElementById('coreN').textContent=('0'+(i+1)).slice(-2)+' / 09';
+      var T=document.getElementById('coreT'); T.textContent=t[0]; T.style.setProperty('--ac',g.a);
+      document.getElementById('coreD').textContent=t[1];
+      box.classList.remove('fade');
+    }
+    if(instant){fill();return}
+    box.classList.add('fade'); setTimeout(fill,220);
+  }
+  function initOrbit(){
+    var o=document.getElementById('orbit'); if(!o)return;
+    o.querySelectorAll('.node').forEach(function(n){
+      var i=+n.getAttribute('data-i');
+      n.addEventListener('mouseenter',function(){if(gi!==i)showGame(i)});
+      n.addEventListener('focus',function(){if(gi!==i)showGame(i)});
+      n.addEventListener('click',function(){if(gi!==i)showGame(i)});
+    });
+    o.addEventListener('mouseenter',function(){gPause=true});
+    o.addEventListener('mouseleave',function(){gPause=false});
+    showGame(0,true);
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches)
+      gTimer=setInterval(function(){if(!gPause&&!document.hidden)showGame((gi+1)%GAMES.length)},3200);
+  }
+
+  (function(){
+    var s;try{s=localStorage.getItem('hk-lang')}catch(e){}
+    var n=(navigator.language||'tr').slice(0,2);
+    LANG = s||(n==='en'?'en':'tr');
+    render();
+    setLang(LANG);
+    initOrbit();
+    if(window.IntersectionObserver){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+      document.querySelectorAll('.rev').forEach(function(el){io.observe(el)});
+    } else {
+      document.querySelectorAll('.rev').forEach(function(el){el.classList.add('in')});
+    }
+  })();
+</script>
+</body>
+</html>
